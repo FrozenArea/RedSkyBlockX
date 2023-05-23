@@ -1,545 +1,533 @@
 <?php
 
+declare(strict_types=1);
+
 namespace RedCraftPE\RedSkyBlock;
 
-use pocketmine\event\Listener;
-use pocketmine\utils\TextFormat;
-use pocketmine\math\Vector3;
-use pocketmine\world\Position;
 use pocketmine\block\Block;
-use pocketmine\block\BlockFactory;
-use pocketmine\player\Player;
-use pocketmine\inventory\Inventory;
-use pocketmine\item\Item;
-use pocketmine\item\VanillaItems;
-use pocketmine\item\StringToItemParser;
-
-//import events:
-//block events:
-use pocketmine\event\block\BlockFormEvent;
 use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\event\block\BlockFormEvent;
 use pocketmine\event\block\BlockPlaceEvent;
-//player events:
-use pocketmine\event\player\PlayerInteractEvent;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityItemPickupEvent;
+use pocketmine\event\entity\EntityTeleportEvent;
+use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerBucketEvent;
+use pocketmine\event\player\PlayerChatEvent;
+use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerExhaustEvent;
-use pocketmine\event\player\PlayerDeathEvent;
+use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
-use pocketmine\event\player\PlayerChatEvent;
-use pocketmine\event\player\PlayerBucketEvent;
-//entity events:
-use pocketmine\event\entity\EntityTeleportEvent;
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\event\entity\EntityItemPickupEvent;
-
+use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\item\StringToItemParser;
+use pocketmine\item\VanillaItems;
+use pocketmine\player\Player;
+use pocketmine\utils\TextFormat;
+use pocketmine\world\Position;
 use RedCraftPE\RedSkyBlock\Utils\ZoneManager;
-use RedCraftPE\RedSkyBlock\Island;
-use RedCraftPE\RedSkyBlock\Utils\HeadManager;
 
 class SkyblockListener implements Listener {
 
-  private $plugin;
+	private $plugin;
 
-  public function __construct(SkyBlock $plugin) {
+	public function __construct(SkyBlock $plugin) {
 
-    $this->plugin = $plugin;
-    $plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
-  }
+		$this->plugin = $plugin;
+		$plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
+	}
 
-  public function onForm(BlockFormEvent $event) {
+	public function onForm(BlockFormEvent $event) {
 
-    $plugin = $this->plugin;
-    $block = $event->getBlock();
-    $world = $block->getPosition()->getWorld()->getFolderName();
+		$plugin = $this->plugin;
+		$block = $event->getBlock();
+		$world = $block->getPosition()->getWorld()->getFolderName();
 
-    $generatorOres = $plugin->cfg->get("Generator Ores", []);
-    $masterWorld = $plugin->skyblock->get("Master World");
+		$generatorOres = $plugin->cfg->get("Generator Ores", []);
+		$masterWorld = $plugin->skyblock->get("Master World");
 
-    if ($world === $masterWorld || $world === $masterWorld . "-Nether") {
+		if ($world === $masterWorld || $world === $masterWorld . "-Nether") {
 
-      if (count($generatorOres) !== 0) {
+			if (count($generatorOres) !== 0) {
 
-        if (array_sum($generatorOres) !== 100) {
+				if (array_sum($generatorOres) !== 100) {
 
-          $message = $plugin->mShop->construct("GEN_FORMAT");
-          $plugin->getLogger()->info($message);
-        } else {
+					$message = $plugin->mShop->construct("GEN_FORMAT");
+					$plugin->getLogger()->info($message);
+				} else {
 
-          $genBlock = null;
-          $randomNumber = random_int(1, 100);
-          $percentChance = 0;
+					$genBlock = null;
+					$randomNumber = random_int(1, 100);
+					$percentChance = 0;
 
-          foreach ($generatorOres as $blockName => $oreChance) {
+					foreach ($generatorOres as $blockName => $oreChance) {
 
-            $percentChance += $oreChance;
+						$percentChance += $oreChance;
 
-            if ($randomNumber <= $percentChance) {
+						if ($randomNumber <= $percentChance) {
 
-              $genBlock = StringToItemParser::getInstance()->parse($blockName)->getBlock();
-              break;
-            }
-          }
-          if ($genBlock instanceof Block) {
+							$genBlock = StringToItemParser::getInstance()->parse($blockName)->getBlock();
+							break;
+						}
+					}
+					if ($genBlock instanceof Block) {
 
-            $event->cancel();
-            $block->getPosition()->getWorld()->setBlock($block->getPosition(), $genBlock);
-          }
-        }
-      }
-    }
-  }
+						$event->cancel();
+						$block->getPosition()->getWorld()->setBlock($block->getPosition(), $genBlock);
+					}
+				}
+			}
+		}
+	}
 
-  public function onJoin(PlayerJoinEvent $event) {
+	public function onJoin(PlayerJoinEvent $event) {
 
-    $player = $event->getPlayer();
-    ZoneManager::clearZoneTools($player);
-  }
+		$player = $event->getPlayer();
+		ZoneManager::clearZoneTools($player);
+	}
 
-  public function onQuit(PlayerQuitEvent $event) {
+	public function onQuit(PlayerQuitEvent $event) {
 
-    $player = $event->getPlayer();
-    $zoneShovel = ZoneManager::getZoneShovel();
-    $spawnFeather = ZoneManager::getSpawnFeather();
+		$player = $event->getPlayer();
+		$zoneShovel = ZoneManager::getZoneShovel();
+		$spawnFeather = ZoneManager::getSpawnFeather();
 
-    if (ZoneManager::getZoneKeeper() === $player) {
+		if (ZoneManager::getZoneKeeper() === $player) {
 
-      ZoneManager::setZoneKeeper();
-      ZoneManager::clearZoneTools($player);
-    }
-  }
+			ZoneManager::setZoneKeeper();
+			ZoneManager::clearZoneTools($player);
+		}
+	}
 
-  public function onDrop(PlayerDropItemEvent $event) {
+	public function onDrop(PlayerDropItemEvent $event) {
 
-    $item = $event->getItem();
-    $player = $event->getPlayer();
-    $zoneShovel = ZoneManager::getZoneShovel();
-    $spawnFeather = ZoneManager::getSpawnFeather();
+		$item = $event->getItem();
+		$player = $event->getPlayer();
+		$zoneShovel = ZoneManager::getZoneShovel();
+		$spawnFeather = ZoneManager::getSpawnFeather();
 
-    if ($item->equals($zoneShovel) || $item->equals($spawnFeather)) {
+		if ($item->equals($zoneShovel) || $item->equals($spawnFeather)) {
 
-      $event->cancel();
-      $index = array_search($item, $player->getInventory()->getContents());
-      $player->getInventory()->setItem($index, VanillaItems::AIR());
-    }
-  }
+			$event->cancel();
+			$index = array_search($item, $player->getInventory()->getContents(), true);
+			$player->getInventory()->setItem($index, VanillaItems::AIR());
+		}
+	}
 
-  public function onInteract(PlayerInteractEvent $event) {
+	public function onInteract(PlayerInteractEvent $event) {
 
-    $plugin = $this->plugin;
-    $player = $event->getPlayer();
-    $block = $event->getBlock();
-    $item = $event->getItem();
-    $action = $event->getAction();
-    $zoneShovel = ZoneManager::getZoneShovel();
+		$plugin = $this->plugin;
+		$player = $event->getPlayer();
+		$block = $event->getBlock();
+		$item = $event->getItem();
+		$action = $event->getAction();
+		$zoneShovel = ZoneManager::getZoneShovel();
 
-    $blockPos = $block->getPosition();
-    $blockX = round($blockPos->x);
-    $blockY = round($blockPos->y);
-    $blockZ = round($blockPos->z);
+		$blockPos = $block->getPosition();
+		$blockX = round($blockPos->x);
+		$blockY = round($blockPos->y);
+		$blockZ = round($blockPos->z);
 
-    $zoneWorld = ZoneManager::getZoneWorld();
-    $blockWorld = $blockPos->world;
+		$zoneWorld = ZoneManager::getZoneWorld();
+		$blockWorld = $blockPos->world;
 
-    // check if using a zonetool and take appropriate actions if true:
+		// check if using a zonetool and take appropriate actions if true:
 
-    if ($item->equals($zoneShovel)) {
+		if ($item->equals($zoneShovel)) {
 
-      if ($action === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
+			if ($action === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
 
-        ZoneManager::setFirstPosition($blockPos);
+				ZoneManager::setFirstPosition($blockPos);
 
-        if ($zoneWorld === null || $zoneWorld != $blockWorld) {
+				if ($zoneWorld === null || $zoneWorld != $blockWorld) {
 
-          ZoneManager::setZoneWorld($blockWorld);
-          ZoneManager::setSecondPosition(); //reset the other position because it was selected in a different world
-          $zoneWorld = $blockWorld;
-        }
+					ZoneManager::setZoneWorld($blockWorld);
+					ZoneManager::setSecondPosition(); //reset the other position because it was selected in a different world
+					$zoneWorld = $blockWorld;
+				}
 
-        $message = $plugin->mShop->construct("SET_POS1");
-        $message = str_replace("{X}", $blockX, $message);
-        $message = str_replace("{Y}", $blockY, $message);
-        $message = str_replace("{Z}", $blockZ, $message);
-        $message = str_replace("{ZWORLD}", $zoneWorld->getFolderName(), $message);
-        $player->sendMessage($message);
-        return;
-      }
-    }
-    //check if interacting with a block on an island and if yes cancel if not a part of that island:
+				$message = $plugin->mShop->construct("SET_POS1");
+				$message = str_replace("{X}", $blockX, $message);
+				$message = str_replace("{Y}", $blockY, $message);
+				$message = str_replace("{Z}", $blockZ, $message);
+				$message = str_replace("{ZWORLD}", $zoneWorld->getFolderName(), $message);
+				$player->sendMessage($message);
+				return;
+			}
+		}
+		//check if interacting with a block on an island and if yes cancel if not a part of that island:
 
-    $island = $plugin->islandManager->getIslandAtBlock($block);
-    if ($island instanceof Island) {
+		$island = $plugin->islandManager->getIslandAtBlock($block);
+		if ($island instanceof Island) {
 
-      $members = $island->getMembers();
-      if (array_key_exists(strtolower($player->getName()), $members)) {
+			$members = $island->getMembers();
+			if (array_key_exists(strtolower($player->getName()), $members)) {
 
-        $islandPermissions = $island->getPermissions();
-        $playerRank = $members[strtolower($player->getName())];
-        if (!in_array("island.interact", $islandPermissions[$playerRank])) {
+				$islandPermissions = $island->getPermissions();
+				$playerRank = $members[strtolower($player->getName())];
+				if (!in_array("island.interact", $islandPermissions[$playerRank], true)) {
 
-          $event->cancel();
-        }
-      } elseif (!($player->getName() === $island->getCreator() || $player->hasPermission("redskyblock.bypass"))) {
+					$event->cancel();
+				}
+			} elseif (!($player->getName() === $island->getCreator() || $player->hasPermission("redskyblock.bypass"))) {
 
-        $event->cancel();
-      }
-    }
-  }
+				$event->cancel();
+			}
+		}
+	}
 
-  public function onBreak(BlockBreakEvent $event) {
+	public function onBreak(BlockBreakEvent $event) {
 
-    $plugin = $this->plugin;
-    $player = $event->getPlayer();
-    $block = $event->getBlock();
-    $item = $event->getItem();
-    $zoneShovel = ZoneManager::getZoneShovel();
-    $spawnFeather = ZoneManager::getSpawnFeather();
+		$plugin = $this->plugin;
+		$player = $event->getPlayer();
+		$block = $event->getBlock();
+		$item = $event->getItem();
+		$zoneShovel = ZoneManager::getZoneShovel();
+		$spawnFeather = ZoneManager::getSpawnFeather();
 
-    $blockPos = $block->getPosition();
-    $blockX = round($blockPos->x);
-    $blockY = round($blockPos->y);
-    $blockZ = round($blockPos->z);
+		$blockPos = $block->getPosition();
+		$blockX = round($blockPos->x);
+		$blockY = round($blockPos->y);
+		$blockZ = round($blockPos->z);
 
-    $zoneWorld = ZoneManager::getZoneWorld();
-    $blockWorld = $blockPos->world;
+		$zoneWorld = ZoneManager::getZoneWorld();
+		$blockWorld = $blockPos->world;
 
-    // check if using a zone tool and take the appropriate actions if true:
+		// check if using a zone tool and take the appropriate actions if true:
 
-    if ($item->equals($zoneShovel)) {
+		if ($item->equals($zoneShovel)) {
 
-      ZoneManager::setSecondPosition($blockPos);
-      $event->cancel();
+			ZoneManager::setSecondPosition($blockPos);
+			$event->cancel();
 
-      if ($zoneWorld === null || $zoneWorld != $blockWorld) {
+			if ($zoneWorld === null || $zoneWorld != $blockWorld) {
 
-        ZoneManager::setZoneWorld($blockWorld);
-        ZoneManager::setFirstPosition(); //reset the other position because it was selected in a different world
-        $zoneWorld = $blockWorld;
-      }
+				ZoneManager::setZoneWorld($blockWorld);
+				ZoneManager::setFirstPosition(); //reset the other position because it was selected in a different world
+				$zoneWorld = $blockWorld;
+			}
 
-      $message = $plugin->mShop->construct("SET_POS2");
-      $message = str_replace("{X}", $blockX, $message);
-      $message = str_replace("{Y}", $blockY, $message);
-      $message = str_replace("{Z}", $blockZ, $message);
-      $message = str_replace("{ZWORLD}", $zoneWorld->getFolderName(), $message);
-      $player->sendMessage($message);
-      return;
+			$message = $plugin->mShop->construct("SET_POS2");
+			$message = str_replace("{X}", $blockX, $message);
+			$message = str_replace("{Y}", $blockY, $message);
+			$message = str_replace("{Z}", $blockZ, $message);
+			$message = str_replace("{ZWORLD}", $zoneWorld->getFolderName(), $message);
+			$player->sendMessage($message);
+			return;
+		} elseif ($item->equals($spawnFeather)) {
 
-    } elseif ($item->equals($spawnFeather)) {
+			$event->cancel();
+			$zonePos1 = ZoneManager::getFirstPosition();
+			$zonePos2 = ZoneManager::getSecondPosition();
 
-      $event->cancel();
-      $zonePos1 = ZoneManager::getFirstPosition();
-      $zonePos2 = ZoneManager::getSecondPosition();
+			if ($zonePos1 !== null && $zonePos2 !== null) {
 
-      if ($zonePos1 !== null && $zonePos2 !== null) {
+				if ($blockWorld === $zoneWorld) {
 
-        if ($blockWorld === $zoneWorld) {
+					ZoneManager::setSpawnPosition($blockPos);
+					ZoneManager::createZone();
+					ZoneManager::setZoneKeeper();
+					ZoneManager::setFirstPosition();
+					ZoneManager::setSecondPosition();
+					ZoneManager::clearZoneTools($player);
 
-          ZoneManager::setSpawnPosition($blockPos);
-          ZoneManager::createZone();
-          ZoneManager::setZoneKeeper();
-          ZoneManager::setFirstPosition();
-          ZoneManager::setSecondPosition();
-          ZoneManager::clearZoneTools($player);
+					$message = $plugin->mShop->construct("SET_CUSTOM_SPAWN");
+					$player->sendMessage($message);
+					return;
+				} else {
 
-          $message = $plugin->mShop->construct("SET_CUSTOM_SPAWN");
-          $player->sendMessage($message);
-          return;
-        } else {
+					$message = $plugin->mShop->construct("WRONG_WORLD");
+					$player->sendMessage($message);
+					return;
+				}
+			} else {
 
-          $message = $plugin->mShop->construct("WRONG_WORLD");
-          $player->sendMessage($message);
-          return;
-        }
-      } else {
+				$message = $plugin->mShop->construct("SPAWN_FEATHER_NOT_READY");
+				$player->sendMessage($message);
+				return;
+			}
+		}
 
-        $message = $plugin->mShop->construct("SPAWN_FEATHER_NOT_READY");
-        $player->sendMessage($message);
-        return;
-      }
-    }
+		// Check if allowed to break blocks or if island value should decrease if on an island:
 
-    // Check if allowed to break blocks or if island value should decrease if on an island:
+		$island = $plugin->islandManager->getIslandAtBlock($block);
+		if ($island instanceof Island) {
 
-    $island = $plugin->islandManager->getIslandAtBlock($block);
-    if ($island instanceof Island) {
+			$members = $island->getMembers();
+			$creator = $island->getCreator();
+			$playerName = $player->getName();
+			$playerNameLower = strtolower($playerName);
 
-      $members = $island->getMembers();
-      $creator = $island->getCreator();
-      $playerName = $player->getName();
-      $playerNameLower = strtolower($playerName);
+			if (array_key_exists($playerNameLower, $members) || $playerName === $creator || $player->hasPermission("redskyblock.bypass")) {
 
-      if (array_key_exists($playerNameLower, $members) || $playerName === $creator || $player->hasPermission("redskyblock.bypass")) {
+				if (array_key_exists($playerNameLower, $members)) {
 
-        if (array_key_exists($playerNameLower, $members)) {
+					$islandPermissions = $island->getPermissions();
+					$playerRank = $members[$playerNameLower];
+					if (!in_array("island.break", $islandPermissions[$playerRank], true)) {
 
-          $islandPermissions = $island->getPermissions();
-          $playerRank = $members[$playerNameLower];
-          if (!in_array("island.break", $islandPermissions[$playerRank])) {
+						$event->cancel();
+						return;
+					}
+				}
+				$valuableArray = $plugin->cfg->get("Valuable Blocks", []);
+				$blockName = str_replace(" ", "_", strtolower($block->getName()));
+				if (array_key_exists($blockName, $valuableArray)) {
 
-            $event->cancel();
-            return;
-          }
-        }
-        $valuableArray = $plugin->cfg->get("Valuable Blocks", []);
-        $blockName = str_replace(" ", "_", strtolower($block->getName()));
-        if (array_key_exists($blockName, $valuableArray)) {
+					$island->removeValue((int) $valuableArray[$blockName]);
+				}
 
-          $island->removeValue((int) $valuableArray[$blockName]);
-        }
+				$island->addToStat("blocks_broken", 1);
+			} else {
 
-        $island->addToStat("blocks_broken", 1);
-      } else {
+				$event->cancel();
+			}
+		} elseif (!$player->hasPermission("redskyblock.bypass")) {
 
-        $event->cancel();
-      }
+			$event->cancel();
+		}
+	}
 
-    } elseif (!$player->hasPermission("redskyblock.bypass")) {
+	public function onPlace(BlockPlaceEvent $event) {
 
-      $event->cancel();
-    }
-  }
+		$plugin = $this->plugin;
+		$masterWorld = $plugin->islandManager->getMasterWorld();
+		$block = $event->getBlock();
+		$blockWorld = $block->getPosition()->world;
+		$player = $event->getPlayer();
 
-  public function onPlace(BlockPlaceEvent $event) {
+		$island = $plugin->islandManager->getIslandAtBlock($block);
+		if ($island instanceof Island) {
 
-    $plugin = $this->plugin;
-    $masterWorld = $plugin->islandManager->getMasterWorld();
-    $block = $event->getBlock();
-    $blockWorld = $block->getPosition()->world;
-    $player = $event->getPlayer();
+			$members = $island->getMembers();
+			$creator = $island->getCreator();
+			$playerName = $player->getName();
+			$playerNameLower = strtolower($playerName);
 
-    $island = $plugin->islandManager->getIslandAtBlock($block);
-    if ($island instanceof Island) {
+			if (array_key_exists($playerNameLower, $members) || $playerName === $creator || $player->hasPermission("redskyblock.bypass")) {
 
-      $members = $island->getMembers();
-      $creator = $island->getCreator();
-      $playerName = $player->getName();
-      $playerNameLower = strtolower($playerName);
+				if (array_key_exists($playerNameLower, $members)) {
 
-      if (array_key_exists($playerNameLower, $members) || $playerName === $creator || $player->hasPermission("redskyblock.bypass")) {
+					$islandPermissions = $island->getPermissions();
+					$playerRank = $members[$playerNameLower];
+					if (!in_array("island.place", $islandPermissions[$playerRank], true)) {
 
-        if (array_key_exists($playerNameLower, $members)) {
+						$event->cancel();
+						return;
+					}
+				}
 
-          $islandPermissions = $island->getPermissions();
-          $playerRank = $members[$playerNameLower];
-          if (!in_array("island.place", $islandPermissions[$playerRank])) {
+				$valuableArray = $plugin->cfg->get("Valuable Blocks", []);
+				$blockName = str_replace(" ", "_", strtolower($block->getName()));
+				if (array_key_exists($blockName, $valuableArray)) {
 
-            $event->cancel();
-            return;
-          }
-        }
+					$island->addValue((int) $valuableArray[$blockName]);
+				}
 
-        $valuableArray = $plugin->cfg->get("Valuable Blocks", []);
-        $blockName = str_replace(" ", "_", strtolower($block->getName()));
-        if (array_key_exists($blockName, $valuableArray)) {
+				$island->addToStat("blocks_placed", 1);
+			} else {
 
-          $island->addValue((int) $valuableArray[$blockName]);
-        }
+				$event->cancel();
+				return;
+			}
+		} elseif (!$player->hasPermission("redskyblock.bypass")) {
 
-        $island->addToStat("blocks_placed", 1);
-      } else {
+			$event->cancel();
+			return;
+		}
+	}
 
-        $event->cancel();
-        return;
-      }
-    } elseif (!$player->hasPermission("redskyblock.bypass")) {
+	public function onTeleport(EntityTeleportEvent $event) {
 
-      $event->cancel();
-      return;
-    }
-  }
+		$entity = $event->getEntity();
+		if ($entity instanceof Player) {
 
-  public function onTeleport(EntityTeleportEvent $event) {
+			$entityEndWorld = $event->getTo()->world;
+			$masterWorld = $this->plugin->islandManager->getMasterWorld();
+			if ($entityEndWorld !== $masterWorld && !$entity->hasPermission("redskyblock.admin")) {
 
-    $entity = $event->getEntity();
-    if ($entity instanceof Player) {
+				if ($entity->getAllowFlight()) {
 
-      $entityEndWorld = $event->getTo()->world;
-      $masterWorld = $this->plugin->islandManager->getMasterWorld();
-      if ($entityEndWorld !== $masterWorld && !$entity->hasPermission("redskyblock.admin")) {
+					$entity->setAllowFlight(false);
+					$entity->setFlying(false);
+				}
+			}
+		}
+	}
 
-        if ($entity->getAllowFlight()) {
+	public function onDamage(EntityDamageEvent $event) {
 
-          $entity->setAllowFlight(false);
-          $entity->setFlying(false);
-        }
-      }
-    }
-  }
+		$plugin = $this->plugin;
+		$entity = $event->getEntity();
+		$masterWorld = $plugin->islandManager->getMasterWorld();
+		if ($entity instanceof Player) {
 
-  public function onDamage(EntityDamageEvent $event) {
+			$cause = $event->getCause();
+			if ($cause === EntityDamageEvent::CAUSE_VOID) {
 
-    $plugin = $this->plugin;
-    $entity = $event->getEntity();
-    $masterWorld = $plugin->islandManager->getMasterWorld();
-    if ($entity instanceof Player) {
+				$island = $plugin->islandManager->getIslandAtPlayer($entity);
+				if ($island instanceof Island) {
 
-      $cause = $event->getCause();
-      if ($cause === EntityDamageEvent::CAUSE_VOID) {
+					$islandSettings = $island->getSettings();
+					if ($islandSettings["safevoid"]) {
 
-        $island = $plugin->islandManager->getIslandAtPlayer($entity);
-        if ($island instanceof Island) {
+						$event->cancel();
 
-          $islandSettings = $island->getSettings();
-          if ($islandSettings["safevoid"]) {
+						$islandSpawn = $island->getSpawnPoint();
+						$entity->teleport(new Position($islandSpawn[0], $islandSpawn[1], $islandSpawn[2], $masterWorld));
+					}
+				}
+			} elseif ($cause === EntityDamageEvent::CAUSE_FALL) {
 
-            $event->cancel();
+				$playerWorld = $entity->getWorld();
+				if ($playerWorld === $masterWorld) {
 
-            $islandSpawn = $island->getSpawnPoint();
-            $entity->teleport(new Position($islandSpawn[0], $islandSpawn[1], $islandSpawn[2], $masterWorld));
-          }
-        }
-      } elseif ($cause === EntityDamageEvent::CAUSE_FALL) {
+					if (!$plugin->cfg->get("Fall Damage")) {
 
-        $playerWorld = $entity->getWorld();
-        if ($playerWorld === $masterWorld) {
+						$event->cancel();
+					}
+				}
+			}
+		}
+	}
 
-          if (!$plugin->cfg->get("Fall Damage")) {
+	public function onDamageByEntity(EntityDamageByEntityEvent $event) {
 
-            $event->cancel();
-          }
-        }
-      }
-    }
-  }
+		$plugin = $this->plugin;
+		$attackingEntity = $event->getDamager();
+		$entity = $event->getEntity();
 
-  public function onDamageByEntity(EntityDamageByEntityEvent $event) {
+		if ($attackingEntity instanceof Player && $entity instanceof Player) {
 
-    $plugin = $this->plugin;
-    $attackingEntity = $event->getDamager();
-    $entity = $event->getEntity();
+			$island = $plugin->islandManager->getIslandAtPlayer($entity);
+			if ($island instanceof Island) {
 
-    if ($attackingEntity instanceof Player && $entity instanceof Player) {
+				$islandSettings = $island->getSettings();
+				if (!$islandSettings["pvp"]) {
 
-      $island = $plugin->islandManager->getIslandAtPlayer($entity);
-      if ($island instanceof Island) {
+					$event->cancel();
+				}
+			}
+		}
+	}
 
-        $islandSettings = $island->getSettings();
-        if (!$islandSettings["pvp"]) {
+	public function onExhaust(PlayerExhaustEvent $event) {
 
-          $event->cancel();
-        }
-      }
-    }
-  }
+		$plugin = $this->plugin;
+		$player = $event->getPlayer();
+		$playerWorld = $player->getWorld();
+		$masterWorld = $plugin->islandManager->getMasterWorld();
+		$doHunger = $plugin->cfg->get("Island Hunger");
 
-  public function onExhaust(PlayerExhaustEvent $event) {
+		if ($playerWorld === $masterWorld && !$doHunger) {
 
-    $plugin = $this->plugin;
-    $player = $event->getPlayer();
-    $playerWorld = $player->getWorld();
-    $masterWorld = $plugin->islandManager->getMasterWorld();
-    $doHunger = $plugin->cfg->get("Island Hunger");
+			$player->getHungerManager()->addFood(10);
+		}
+	}
 
-    if ($playerWorld === $masterWorld && !$doHunger) {
+	public function onPickup(EntityItemPickupEvent $event) {
 
-      $player->getHungerManager()->addFood(10);
-    }
-  }
+		$entity = $event->getEntity();
+		if ($entity instanceof Player) {
 
-  public function onPickup(EntityItemPickupEvent $event) {
+			$island = $this->plugin->islandManager->getIslandAtPlayer($entity);
+			if ($island instanceof Island) {
 
-    $entity = $event->getEntity();
-    if ($entity instanceof Player) {
+				$islandSettings = $island->getSettings();
+				$islandMembers = $island->getMembers();
+				$islandCreator = $island->getCreator();
 
-      $island = $this->plugin->islandManager->getIslandAtPlayer($entity);
-      if ($island instanceof Island) {
+				if ($entity->getName() !== $islandCreator) {
 
-        $islandSettings = $island->getSettings();
-        $islandMembers = $island->getMembers();
-        $islandCreator = $island->getCreator();
+					if (!$entity->hasPermission("redskyblock.bypass")) {
 
-        if ($entity->getName() !== $islandCreator) {
+						if (!array_key_exists(strtolower($entity->getName()), $islandMembers)) {
 
-          if (!$entity->hasPermission("redskyblock.bypass")) {
+							if (!$islandSettings["visitor_pickup"]) {
 
-            if (!array_key_exists(strtolower($entity->getName()), $islandMembers)) {
+								$event->cancel();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
-              if (!$islandSettings["visitor_pickup"]) {
+	public function onDeath(PlayerDeathEvent $event) {
 
-                $event->cancel();
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+		$keepInventory = $this->plugin->cfg->get("Keep Inventory");
+		$playerWorld = $event->getPlayer()->getWorld();
+		$masterWorld = $this->plugin->islandManager->getMasterWorld();
 
-  public function onDeath(PlayerDeathEvent $event) {
+		if ($playerWorld === $masterWorld && $keepInventory) {
 
-    $keepInventory = $this->plugin->cfg->get("Keep Inventory");
-    $playerWorld = $event->getPlayer()->getWorld();
-    $masterWorld = $this->plugin->islandManager->getMasterWorld();
+			$event->setKeepInventory(true);
+		}
+	}
 
-    if ($playerWorld === $masterWorld && $keepInventory) {
+	public function onMove(PlayerMoveEvent $event) {
 
-      $event->setKeepInventory(true);
-    }
-  }
+		$player = $event->getPlayer();
+		$playerWorld = $player->getWorld();
+		$masterWorld = $this->plugin->islandManager->getMasterWorld();
 
-  public function onMove(PlayerMoveEvent $event) {
+		if ($this->plugin->cfg->get("Island Boundaries")) {
 
-    $player = $event->getPlayer();
-    $playerWorld = $player->getWorld();
-    $masterWorld = $this->plugin->islandManager->getMasterWorld();
+			if ($playerWorld === $masterWorld) {
 
-    if ($this->plugin->cfg->get("Island Boundaries")) {
+				$island = $this->plugin->islandManager->getIslandAtPlayer($player);
+				if (!$island instanceof Island && !$player->hasPermission("redskyblock.bypass")) {
 
-      if ($playerWorld === $masterWorld) {
+					$event->cancel();
+				}
+			}
+		}
+	}
 
-        $island = $this->plugin->islandManager->getIslandAtPlayer($player);
-        if (!$island instanceof Island && !$player->hasPermission("redskyblock.bypass")) {
+	public function onChat(PlayerChatEvent $event) {
 
-          $event->cancel();
-        }
-      }
-    }
-  }
+		$player = $event->getPlayer();
+		$message = $event->getMessage();
+		$channel = $this->plugin->islandManager->searchIslandChannels($player->getName());
 
-  public function onChat(PlayerChatEvent $event) {
+		if ($channel instanceof Island) {
 
-    $player = $event->getPlayer();
-    $message = $event->getMessage();
-    $channel = $this->plugin->islandManager->searchIslandChannels($player->getName());
+			$recipients = [];
+			foreach ($channel->getChatters() as $playerName) {
 
-    if ($channel instanceof Island) {
+				$recipient = $this->plugin->getServer()->getPlayerExact($playerName);
+				$recipients[] = $recipient;
+			}
 
-      $recipients = [];
-      foreach($channel->getChatters() as $playerName) {
+			$event->setMessage(TextFormat::RED . TextFormat::BOLD . $channel->getName() . TextFormat::RESET . ": " . $message);
+			$event->setRecipients($recipients);
+		}
+	}
 
-        $recipient = $this->plugin->getServer()->getPlayerExact($playerName);
-        $recipients[] = $recipient;
-      }
+	public function onBucket(PlayerBucketEvent $event) {
 
-      $event->setMessage(TextFormat::RED . TextFormat::BOLD . $channel->getName() . TextFormat::RESET . ": " . $message);
-      $event->setRecipients($recipients);
-    }
-  }
+		$player = $event->getPlayer();
+		$block = $event->getBlockClicked();
 
-  public function onBucket(PlayerBucketEvent $event) {
+		$island = $this->plugin->islandManager->getIslandAtBlock($block);
+		if ($island instanceof Island) {
 
-    $player = $event->getPlayer();
-    $block = $event->getBlockClicked();
+			$members = $island->getMembers();
+			if (array_key_exists(strtolower($player->getName()), $members)) {
 
-    $island = $this->plugin->islandManager->getIslandAtBlock($block);
-    if ($island instanceof Island) {
+				$islandPermissions = $island->getPermissions();
+				$playerRank = $members[strtolower($player->getName())];
+				if (!in_array("island.interact", $islandPermissions[$playerRank], true)) {
 
-      $members = $island->getMembers();
-      if (array_key_exists(strtolower($player->getName()), $members)) {
+					$event->cancel();
+				}
+			} elseif (!($player->getName() === $island->getCreator() || $player->hasPermission("redskyblock.bypass"))) {
 
-        $islandPermissions = $island->getPermissions();
-        $playerRank = $members[strtolower($player->getName())];
-        if (!in_array("island.interact", $islandPermissions[$playerRank])) {
-
-          $event->cancel();
-        }
-      } elseif (!($player->getName() === $island->getCreator() || $player->hasPermission("redskyblock.bypass"))) {
-
-        $event->cancel();
-      }
-    }
-  }
+				$event->cancel();
+			}
+		}
+	}
 }

@@ -1,22 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace RedCraftPE\RedSkyBlock\Tasks;
 
 use pocketmine\scheduler\Task;
-
 use RedCraftPE\RedSkyBlock\SkyBlock;
 
 class AutoSaveIslands extends Task {
 
-  private $plugin;
+	private $plugin;
 
-  public function __construct(SkyBlock $plugin) {
+	public function __construct(SkyBlock $plugin) {
 
-    $this->plugin = $plugin;
-  }
+		$this->plugin = $plugin;
+	}
 
-  public function onRun(): void {
+	public function onRun(): void {
 
-    $this->plugin->islandManager->saveAllIslands();
-  }
+		$this->plugin->islandManager->saveAllIslands();
+	}
 }

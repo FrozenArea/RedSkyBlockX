@@ -1,5 +1,5 @@
-name: RedSkyBlock
-author: RedCraftPE
+name: RedSkyBlockX
+author: [RedCraftPE, NhanAZ]
 version: 6.0.0-ALPHA
 api: 4.0.0
 main: RedCraftPE\RedSkyBlock\SkyBlock

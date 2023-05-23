@@ -1,82 +1,80 @@
 <?php
 
+declare(strict_types=1);
+
 namespace RedCraftPE\RedSkyBlock\Commands\SubCommands;
 
+use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat;
-
 use RedCraftPE\RedSkyBlock\Commands\SBSubCommand;
 use RedCraftPE\RedSkyBlock\Island;
 
-use CortexPE\Commando\constraint\InGameRequiredConstraint;
-
 class Lock extends SBSubCommand {
 
-  public function prepare(): void {
+	public function prepare(): void {
 
-    $this->addConstraint(new InGameRequiredConstraint($this));
-    $this->setPermission("redskyblock.island");
-  }
+		$this->addConstraint(new InGameRequiredConstraint($this));
+		$this->setPermission("redskyblock.island");
+	}
 
-  public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 
-    $island = $this->plugin->islandManager->getIslandAtPlayer($sender);
-    if (!($island instanceof Island)) {
+		$island = $this->plugin->islandManager->getIslandAtPlayer($sender);
+		if (!($island instanceof Island)) {
 
-      if ($this->checkIsland($sender)) {
+			if ($this->checkIsland($sender)) {
 
-          $island = $this->plugin->islandManager->getIsland($sender);
+				$island = $this->plugin->islandManager->getIsland($sender);
+			} else {
 
-      } else {
+				$message = $this->getMShop()->construct("NO_ISLAND");
+				$sender->sendMessage($message);
+				return;
+			}
+		}
 
-        $message = $this->getMShop()->construct("NO_ISLAND");
-        $sender->sendMessage($message);
-        return;
-      }
-    }
+		$members = $island->getMembers();
+		if (array_key_exists(strtolower($sender->getName()), $members) || $sender->getName() === $island->getCreator() || $sender->hasPermission("redskyblock.admin")) {
 
-    $members = $island->getMembers();
-    if (array_key_exists(strtolower($sender->getName()), $members) || $sender->getName() === $island->getCreator() || $sender->hasPermission("redskyblock.admin")) {
+			if (array_key_exists(strtolower($sender->getName()), $members) && !$sender->hasPermission("redskyblock.admin")) {
 
-      if (array_key_exists(strtolower($sender->getName()), $members) && !$sender->hasPermission("redskyblock.admin")) {
+				$islandPermissions = $island->getPermissions();
+				$senderRank = $members[strtolower($sender->getName())];
 
-        $islandPermissions = $island->getPermissions();
-        $senderRank = $members[strtolower($sender->getName())];
+				if (in_array("island.lock", $islandPermissions[$senderRank], true)) {
 
-        if (in_array("island.lock", $islandPermissions[$senderRank])) {
+					if ($island->lock()) {
 
-          if ($island->lock()) {
+						$message = $this->getMShop()->construct("LOCKED");
+						$sender->sendMessage($message);
+					} else {
 
-            $message = $this->getMShop()->construct("LOCKED");
-            $sender->sendMessage($message);
-          } else {
+						$message = $this->getMShop()->construct("ALREADY_LOCKED");
+						$sender->sendMessage($message);
+					}
+				} else {
 
-            $message = $this->getMShop()->construct("ALREADY_LOCKED");
-            $sender->sendMessage($message);
-          }
-        } else {
+					$message = $this->getMShop()->construct("RANK_TOO_LOW");
+					$message = str_replace("{ISLAND_NAME}", $island->getName(), $message);
+					$sender->sendMessage($message);
+				}
+			} else {
 
-          $message = $this->getMShop()->construct("RANK_TOO_LOW");
-          $message = str_replace("{ISLAND_NAME}", $island->getName(), $message);
-          $sender->sendMessage($message);
-        }
-      } else {
+				if ($island->lock()) {
 
-        if ($island->lock()) {
+					$message = $this->getMShop()->construct("LOCKED");
+					$sender->sendMessage($message);
+				} else {
 
-          $message = $this->getMShop()->construct("LOCKED");
-          $sender->sendMessage($message);
-        } else {
+					$message = $this->getMShop()->construct("ALREADY_LOCKED");
+					$sender->sendMessage($message);
+				}
+			}
+		} else {
 
-          $message = $this->getMShop()->construct("ALREADY_LOCKED");
-          $sender->sendMessage($message);
-        }
-      }
-    } else {
-
-      $message = $this->getMShop()->construct("NOT_A_MEMBER_SELF");
-      $message = str_replace("{ISLAND_NAME}", $island->getName(), $message);
-      $sender->sendMessage($message);
-    }
-  }
+			$message = $this->getMShop()->construct("NOT_A_MEMBER_SELF");
+			$message = str_replace("{ISLAND_NAME}", $island->getName(), $message);
+			$sender->sendMessage($message);
+		}
+	}
 }

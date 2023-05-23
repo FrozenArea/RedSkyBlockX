@@ -1,48 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace RedCraftPE\RedSkyBlock\Commands\SubCommands;
 
-use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat;
-use pocketmine\item\VanillaItems;
-
-use RedCraftPE\RedSkyBlock\Commands\SBSubCommand;
-
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
-
 use muqsit\invmenu\InvMenu;
+use pocketmine\command\CommandSender;
+use pocketmine\item\VanillaItems;
+use pocketmine\utils\TextFormat;
+use RedCraftPE\RedSkyBlock\Commands\SBSubCommand;
 
 class Members extends SBSubCommand {
 
-  public function prepare(): void {
+	public function prepare(): void {
 
-    $this->addConstraint(new InGameRequiredConstraint($this));
-    $this->setPermission("redskyblock.island");
-  }
+		$this->addConstraint(new InGameRequiredConstraint($this));
+		$this->setPermission("redskyblock.island");
+	}
 
-  public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 
-    if ($this->checkIsland($sender)) {
+		if ($this->checkIsland($sender)) {
 
-      $island = $this->plugin->islandManager->getIsland($sender);
-      $members = $island->getMembers();
-      $menu = InvMenu::create(InvMenu::TYPE_DOUBLE_CHEST);
-      $menu->setName(TextFormat::RED . TextFormat::BOLD . $island->getName() . TextFormat::RESET . " Members");
+			$island = $this->plugin->islandManager->getIsland($sender);
+			$members = $island->getMembers();
+			$menu = InvMenu::create(InvMenu::TYPE_DOUBLE_CHEST);
+			$menu->setName(TextFormat::RED . TextFormat::BOLD . $island->getName() . TextFormat::RESET . " Members");
 
-      foreach($members as $member => $rank) {
+			foreach ($members as $member => $rank) {
 
-        $item = VanillaItems::PLAYER_HEAD();
-        $item->setCustomName($member);
-        $item->setLore([$rank]);
-        $menu->getInventory()->addItem($item);
-      }
+				$item = VanillaItems::PLAYER_HEAD();
+				$item->setCustomName($member);
+				$item->setLore([$rank]);
+				$menu->getInventory()->addItem($item);
+			}
 
-      $menu->setListener(InvMenu::readonly());
-      $menu->send($sender);
-    } else {
+			$menu->setListener(InvMenu::readonly());
+			$menu->send($sender);
+		} else {
 
-      $message = $this->getMShop()->construct("NO_ISLAND");
-      $sender->sendMessage($message);
-    }
-  }
+			$message = $this->getMShop()->construct("NO_ISLAND");
+			$sender->sendMessage($message);
+		}
+	}
 }
