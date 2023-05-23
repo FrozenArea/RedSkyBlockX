@@ -1,0 +1,16 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/nhanaz-pm-pl/RedSkyBlockX
+build-by-default: true
+branches:
+- master
+projects:
+  RedSkyBlockX:
+    path: ""
+    libs:
+      - src: CortexPE/Commando/Commando
+        version: ^3.1.0
+      - src: Muqsit/SimplePacketHandler/SimplePacketHandler
+        version: ^0.1.2
+      - src: Muqsit/InvMenu/InvMenu
+        version: ^4.5.1
+        branch: "4.0"
+...
