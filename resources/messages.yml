@@ -201,12 +201,12 @@ ISLAND_ON_DELETED: "{RED}The island you were on has been deleted."
 # Message sent to a player if their island is deleted:
 ISLAND_DELETED: "{RED}Your island has been deleted by an administrator."
 
-# Message format for the RedSkyBlock Help Menu: Available Paramaters: {PAGE_NUMBER}, {TOTAL_PAGES}, {COMMAND_ONE}, {COMMAND_TWO}, {COMMAND_THREE}, {COMMAND_FOUR}, {COMMAND_FIVE}, {COMMAND_SIX}
-HELP_MENU: "{RED}{BOLD}RedSkyBlock{RESET}{WHITE} Help Menu Page {GREEN}{PAGE_NUMBER}{WHITE} of {GREEN}{TOTAL_PAGES}{WHITE}:{NEW_LINE}{COMMAND_ONE}{NEW_LINE}{COMMAND_TWO}{NEW_LINE}{COMMAND_THREE}{NEW_LINE}{COMMAND_FOUR}{NEW_LINE}{COMMAND_FIVE}{NEW_LINE}{COMMAND_SIX}"
-# Message format for the RedSkyBlock Help Menu for a specific command: Available Parameters: {COMMAND}, {DESCRIPTION}, {USAGE}, {PERMISSIONS}, {ALIASES}
-HELP_MENU_SPECIFIC: "{RED}{BOLD}RedSkyBlock{RESET}{WHITE} Help Menu for {GREEN}{COMMAND}{WHITE} command:{GREEN}{NEW_LINE}Aliases: {WHITE}{ALIASES}{NEW_LINE}{GREEN}Description: {WHITE}{DESCRIPTION}{NEW_LINE}{GREEN}Usage: {WHITE}/is {USAGE}{NEW_LINE}{GREEN}Permissions Required: {WHITE}{PERMISSIONS}"
+# Message format for the RedSkyBlockX Help Menu: Available Paramaters: {PAGE_NUMBER}, {TOTAL_PAGES}, {COMMAND_ONE}, {COMMAND_TWO}, {COMMAND_THREE}, {COMMAND_FOUR}, {COMMAND_FIVE}, {COMMAND_SIX}
+HELP_MENU: "{RED}{BOLD}RedSkyBlockX{RESET}{WHITE} Help Menu Page {GREEN}{PAGE_NUMBER}{WHITE} of {GREEN}{TOTAL_PAGES}{WHITE}:{NEW_LINE}{COMMAND_ONE}{NEW_LINE}{COMMAND_TWO}{NEW_LINE}{COMMAND_THREE}{NEW_LINE}{COMMAND_FOUR}{NEW_LINE}{COMMAND_FIVE}{NEW_LINE}{COMMAND_SIX}"
+# Message format for the RedSkyBlockX Help Menu for a specific command: Available Parameters: {COMMAND}, {DESCRIPTION}, {USAGE}, {PERMISSIONS}, {ALIASES}
+HELP_MENU_SPECIFIC: "{RED}{BOLD}RedSkyBlockX{RESET}{WHITE} Help Menu for {GREEN}{COMMAND}{WHITE} command:{GREEN}{NEW_LINE}Aliases: {WHITE}{ALIASES}{NEW_LINE}{GREEN}Description: {WHITE}{DESCRIPTION}{NEW_LINE}{GREEN}Usage: {WHITE}/is {USAGE}{NEW_LINE}{GREEN}Permissions Required: {WHITE}{PERMISSIONS}"
 # Message sent if a player searches the help menu for an invalid command: Available Parameters: {COMMAND}
-NO_SUCH_COMMAND: "{WHITE}{COMMAND}{RED} is not a RedSkyBlock command."
+NO_SUCH_COMMAND: "{WHITE}{COMMAND}{RED} is not a RedSkyBlockX command."
 
 # Message format for the Detailed SkyBlock info command:
 # Available Paramaters:
