@@ -12,11 +12,15 @@ use RedCraftPE\RedSkyBlockX\SkyBlock;
 
 class IslandManager {
 
+	private $plugin;
+
 	private $islands = [];
 
 	public static $instance;
 
-	public function __construct(private SkyBlock $plugin) {
+	public function __construct(SkyBlock $plugin) {
+
+		$this->plugin = $plugin;
 		self::$instance = $this;
 	}
 

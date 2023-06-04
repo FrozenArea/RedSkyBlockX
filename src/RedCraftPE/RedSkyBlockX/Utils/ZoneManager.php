@@ -14,6 +14,8 @@ use RedCraftPE\RedSkyBlockX\SkyBlock;
 
 class ZoneManager {
 
+	private static $plugin;
+
 	private static $zone;
 
 	private static $zoneShovel;
@@ -30,7 +32,9 @@ class ZoneManager {
 	private static $zoneSize;
 	private static $zoneStartPosition;
 
-	public function __construct(private SkyBlock $plugin) {
+	public function __construct(SkyBlock $plugin) {
+
+		self::$plugin = $plugin;
 		self::$zone = $plugin->skyblock->get("Zone", []);
 
 		self::$zoneStartPosition = $plugin->skyblock->get("Zone Position", []);

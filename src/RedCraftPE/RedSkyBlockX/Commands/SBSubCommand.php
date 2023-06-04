@@ -12,7 +12,11 @@ use RedCraftPE\RedSkyBlockX\Utils\ZoneManager;
 
 abstract class SBSubCommand extends BaseSubCommand {
 
-	public function __construct(private SkyBlock $plugin, string $name, string $description = "", array $aliases = []) {
+	protected $plugin;
+
+	public function __construct(SkyBlock $plugin, string $name, string $description = "", array $aliases = []) {
+
+		$this->plugin = $plugin;
 		parent::__construct($name, $description, $aliases);
 	}
 

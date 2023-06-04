@@ -8,7 +8,11 @@ use RedCraftPE\RedSkyBlockX\SkyBlock;
 
 class ConfigManager {
 
-	public function __construct(private SkyBlock $plugin) {
+	private $plugin;
+
+	public function __construct(SkyBlock $plugin) {
+
+		$this->plugin = $plugin;
 		$this->verifyConfig();
 	}
 
