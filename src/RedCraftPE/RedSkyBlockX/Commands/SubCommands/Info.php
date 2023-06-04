@@ -49,7 +49,7 @@ class Info extends SBSubCommand {
 				$message = $this->getMShop()->construct("ISLAND_INFO_LIMITED");
 				$message = str_replace("{ISLAND_NAME}", $islandName, $message);
 				$message = str_replace("{ISLAND_CREATOR}", $islandCreator, $message);
-				$message = str_replace("{ISLAND_VALUE}", $islandValue, $message);
+				$message = str_replace("{ISLAND_VALUE}", (string) $islandValue, $message);
 				$message = str_replace("{LOCK_STATUS}", $islandLockStatus, $message);
 				$message = str_replace("{SPAWN_POINT}", $islandSpawnPoint, $message);
 				$message = str_replace("{ISLAND_STATS}", $islandStatsString, $message);
