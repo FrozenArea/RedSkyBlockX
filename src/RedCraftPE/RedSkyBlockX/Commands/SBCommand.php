@@ -60,7 +60,7 @@ use RedCraftPE\RedSkyBlockX\SkyBlock;
 
 class SBCommand extends BaseCommand {
 
-	protected $plugin;
+	protected SkyBlock $plugin;
 
 	public function __construct(SkyBlock $plugin, string $name, string $description = "", array $aliases = []) {
 
