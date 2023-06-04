@@ -92,7 +92,7 @@ class Help extends SBSubCommand {
 
 			$message = $this->getMShop()->construct("HELP_MENU");
 			$message = str_replace("{PAGE_NUMBER}", $pageNumber + 1, $message);
-			$message = str_replace("{TOTAL_PAGES}", $pageCount, $message);
+			$message = str_replace("{TOTAL_PAGES}", (string) $pageCount, $message);
 			$message = str_replace("{COMMAND_ONE}", $command1, $message);
 			$message = str_replace("{COMMAND_TWO}", $command2, $message);
 			$message = str_replace("{COMMAND_THREE}", $command3, $message);
