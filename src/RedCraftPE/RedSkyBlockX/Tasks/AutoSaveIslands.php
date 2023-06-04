@@ -9,11 +9,7 @@ use RedCraftPE\RedSkyBlockX\SkyBlock;
 
 class AutoSaveIslands extends Task {
 
-	private $plugin;
-
-	public function __construct(SkyBlock $plugin) {
-
-		$this->plugin = $plugin;
+	public function __construct(private SkyBlock $plugin) {
 	}
 
 	public function onRun(): void {

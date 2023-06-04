@@ -31,11 +31,7 @@ use RedCraftPE\RedSkyBlockX\Utils\ZoneManager;
 
 class SkyblockListener implements Listener {
 
-	private $plugin;
-
-	public function __construct(SkyBlock $plugin) {
-
-		$this->plugin = $plugin;
+	public function __construct(private SkyBlock $plugin) {
 		$plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
 	}
 

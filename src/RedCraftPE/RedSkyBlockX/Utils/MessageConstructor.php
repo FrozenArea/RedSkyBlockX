@@ -10,12 +10,9 @@ use RedCraftPE\RedSkyBlockX\SkyBlock;
 class MessageConstructor {
 
 	public static $instance;
-	public $plugin;
 	private $messages;
 
-	public function __construct(SkyBlock $plugin) {
-
-		$this->plugin = $plugin;
+	public function __construct(private SkyBlock $plugin) {
 		$this->messages = $plugin->messages;
 		self::$instance = $this;
 		$this->updateMessages();
