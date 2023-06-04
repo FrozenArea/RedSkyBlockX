@@ -22,7 +22,7 @@ class Visit extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		if (isset($args["target"])) {
 
 			$name = $args["target"];

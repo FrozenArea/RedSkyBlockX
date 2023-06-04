@@ -34,14 +34,14 @@ class DecreaseSize extends SBSubCommand {
 
 			$message = $this->getMShop()->construct("PLAYER_ISLAND_SIZE_CHANGE");
 			$message = str_replace("{NAME}", $island->getCreator(), $message);
-			$message = str_replace("{SIZE}", $newSize, $message);
+			$message = str_replace("{SIZE}", (string) $newSize, $message);
 			$sender->sendMessage($message);
 
 			$player = $this->plugin->getServer()->getPlayerExact($playerName);
 			if ($player instanceof Player) {
 
 				$message = $this->getMShop()->construct("ISLAND_SIZE_CHANGED");
-				$message = str_replace("{SIZE}", $newSize, $message);
+				$message = str_replace("{SIZE}", (string) $newSize, $message);
 				$player->sendMessage($message);
 			}
 		} else {

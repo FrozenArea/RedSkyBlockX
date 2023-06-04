@@ -386,7 +386,7 @@ class IslandManager {
 		return $topIslands;
 	}
 
-	public function checkRepeatIslandName(string $name): bool {
+	public function checkRepeatIslandName(string $name): ?bool {
 
 		$name = strtolower($name);
 		$bias = null;

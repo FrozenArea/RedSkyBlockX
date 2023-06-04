@@ -34,7 +34,7 @@ class Rank extends SBSubCommand {
 				$message = $this->getMShop()->construct("ISLAND_RANK_OTHER");
 				$message = str_replace("{NAME}", $islandName, $message);
 				$message = str_replace("{RANK}", $rank, $message);
-				$message = str_replace("{TOTAL_ISLANDS}", $islandCount, $message);
+				$message = str_replace("{TOTAL_ISLANDS}", (string) $islandCount, $message);
 				$sender->sendMessage($message);
 			} else {
 
@@ -51,7 +51,7 @@ class Rank extends SBSubCommand {
 
 				$message = $this->getMShop()->construct("ISLAND_RANK_SELF");
 				$message = str_replace("{RANK}", $rank, $message);
-				$message = str_replace("{TOTAL_ISLANDS}", $islandCount, $message);
+				$message = str_replace("{TOTAL_ISLANDS}", (string) $islandCount, $message);
 				$sender->sendMessage($message);
 			} else {
 

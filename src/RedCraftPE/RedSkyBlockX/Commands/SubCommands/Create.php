@@ -11,6 +11,7 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\command\CommandSender;
 use pocketmine\item\StringToItemParser;
 use pocketmine\math\Vector3;
+use pocketmine\player\Player;
 use pocketmine\world\format\Chunk;
 use pocketmine\world\Position;
 use RedCraftPE\RedSkyBlockX\Commands\SBSubCommand;
@@ -28,7 +29,7 @@ class Create extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		if ($this->checkMasterWorld()) {
 
 			if ($this->checkZone()) {
