@@ -41,7 +41,7 @@ class Level extends SBSubCommand {
 			$message = str_replace("{LEVEL}", $islandLevel, $message);
 			$message = str_replace("{XP}", $island->getXP(), $message);
 			$message = str_replace("{XP_NEEDED}", $xpNeeded, $message);
-			$sender->sendTip($message);
+			$sender->sendMessage($message);
 		} else {
 
 			$message = $this->getMShop()->construct("NO_ISLAND");
