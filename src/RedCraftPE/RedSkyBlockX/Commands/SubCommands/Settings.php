@@ -7,9 +7,12 @@ namespace RedCraftPE\RedSkyBlockX\Commands\SubCommands;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\transaction\DeterministicInvMenuTransaction;
+use pocketmine\block\utils\DyeColor;
+use pocketmine\block\VanillaBlocks;
 use pocketmine\command\CommandSender;
 use pocketmine\item\ItemFactory;
 use pocketmine\item\StringToItemParser;
+use pocketmine\item\VanillaItems;
 use pocketmine\utils\TextFormat;
 use RedCraftPE\RedSkyBlockX\Commands\SBSubCommand;
 
@@ -38,12 +41,10 @@ class Settings extends SBSubCommand {
 				$itemName = implode(" ", explode("_", $setting));
 
 				if ($bias) {
-
-					$item = ItemFactory::getInstance()->get(StringToItemParser::getInstance()->parse("stained_glass_pane")->getId(), 5);
+					$item = VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::GREEN())->asItem();
 					$biasString = "Enabled";
 				} else {
-
-					$item = ItemFactory::getInstance()->get(StringToItemParser::getInstance()->parse("stained_glass_pane")->getId(), 14);
+					$item = VanillaBlocks::STAINED_GLASS_PANE()->setColor(DyeColor::RED())->asItem();
 					$biasString = "Disabled";
 				}
 				$item->setCustomName($itemName);
