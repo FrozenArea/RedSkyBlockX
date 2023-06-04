@@ -30,7 +30,7 @@ class Level extends SBSubCommand {
 			$message = str_replace("{LEVEL}", (string) $islandLevel, $message);
 			$message = str_replace("{XP}", (string) $island->getXP(), $message);
 			$message = str_replace("{XP_NEEDED}", (string) $xpNeeded, $message);
-			$sender->sendTip($message);
+			$sender->sendMessage($message);
 		} elseif ($this->checkIsland($sender)) {
 
 			$island = $this->plugin->islandManager->getIsland($sender);
