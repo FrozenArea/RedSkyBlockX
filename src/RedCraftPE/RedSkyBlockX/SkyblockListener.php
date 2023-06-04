@@ -290,48 +290,51 @@ class SkyblockListener implements Listener {
 
 		$plugin = $this->plugin;
 		$masterWorld = $plugin->islandManager->getMasterWorld();
-		$block = $event->getBlock();
-		$blockWorld = $block->getPosition()->world;
-		$player = $event->getPlayer();
+		$blocks = $event->getTransaction()->getBlocks();
+		foreach ($blocks as [$x, $y, $z, $block]) {
+			if (!$block instanceof Block) return;
+			$blockWorld = $block->getPosition()->world;
+			$player = $event->getPlayer();
 
-		$island = $plugin->islandManager->getIslandAtBlock($block);
-		if ($island instanceof Island) {
+			$island = $plugin->islandManager->getIslandAtBlock($block);
+			if ($island instanceof Island) {
 
-			$members = $island->getMembers();
-			$creator = $island->getCreator();
-			$playerName = $player->getName();
-			$playerNameLower = strtolower($playerName);
+				$members = $island->getMembers();
+				$creator = $island->getCreator();
+				$playerName = $player->getName();
+				$playerNameLower = strtolower($playerName);
 
-			if (array_key_exists($playerNameLower, $members) || $playerName === $creator || $player->hasPermission("redskyblockx.bypass")) {
+				if (array_key_exists($playerNameLower, $members) || $playerName === $creator || $player->hasPermission("redskyblockx.bypass")) {
 
-				if (array_key_exists($playerNameLower, $members)) {
+					if (array_key_exists($playerNameLower, $members)) {
 
-					$islandPermissions = $island->getPermissions();
-					$playerRank = $members[$playerNameLower];
-					if (!in_array("island.place", $islandPermissions[$playerRank], true)) {
+						$islandPermissions = $island->getPermissions();
+						$playerRank = $members[$playerNameLower];
+						if (!in_array("island.place", $islandPermissions[$playerRank], true)) {
 
-						$event->cancel();
-						return;
+							$event->cancel();
+							return;
+						}
 					}
+
+					$valuableArray = $plugin->cfg->get("Valuable Blocks", []);
+					$blockName = str_replace(" ", "_", strtolower($block->getName()));
+					if (array_key_exists($blockName, $valuableArray)) {
+
+						$island->addValue((int) $valuableArray[$blockName]);
+					}
+
+					$island->addToStat("blocks_placed", 1);
+				} else {
+
+					$event->cancel();
+					return;
 				}
-
-				$valuableArray = $plugin->cfg->get("Valuable Blocks", []);
-				$blockName = str_replace(" ", "_", strtolower($block->getName()));
-				if (array_key_exists($blockName, $valuableArray)) {
-
-					$island->addValue((int) $valuableArray[$blockName]);
-				}
-
-				$island->addToStat("blocks_placed", 1);
-			} else {
+			} elseif (!$player->hasPermission("redskyblockx.bypass")) {
 
 				$event->cancel();
 				return;
 			}
-		} elseif (!$player->hasPermission("redskyblockx.bypass")) {
-
-			$event->cancel();
-			return;
 		}
 	}
 
