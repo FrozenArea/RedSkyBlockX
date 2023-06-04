@@ -149,9 +149,9 @@ class SkyblockListener implements Listener {
 				}
 
 				$message = $plugin->mShop->construct("SET_POS1");
-				$message = str_replace("{X}", $blockX, $message);
-				$message = str_replace("{Y}", $blockY, $message);
-				$message = str_replace("{Z}", $blockZ, $message);
+				$message = str_replace("{X}", (string) $blockX, $message);
+				$message = str_replace("{Y}", (string) $blockY, $message);
+				$message = str_replace("{Z}", (string) $blockZ, $message);
 				$message = str_replace("{ZWORLD}", $zoneWorld->getFolderName(), $message);
 				$player->sendMessage($message);
 				return;
@@ -210,9 +210,9 @@ class SkyblockListener implements Listener {
 			}
 
 			$message = $plugin->mShop->construct("SET_POS2");
-			$message = str_replace("{X}", $blockX, $message);
-			$message = str_replace("{Y}", $blockY, $message);
-			$message = str_replace("{Z}", $blockZ, $message);
+			$message = str_replace("{X}", (string) $blockX, $message);
+			$message = str_replace("{Y}", (string) $blockY, $message);
+			$message = str_replace("{Z}", (string) $blockZ, $message);
 			$message = str_replace("{ZWORLD}", $zoneWorld->getFolderName(), $message);
 			$player->sendMessage($message);
 			return;

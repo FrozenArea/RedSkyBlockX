@@ -458,7 +458,7 @@ class Island {
 		$unroundedLevel = (float) $xpGap * exp(log($experience) / $difficulty);
 		if (abs($unroundedLevel - round($unroundedLevel)) < 0.0001) $currentLevel = round($unroundedLevel);
 
-		return $currentLevel;
+		return (int) $currentLevel;
 	}
 
 	public function getXPNeeded(int $experience): int {
@@ -472,6 +472,6 @@ class Island {
 		$nextLevel = $currentLevel + 1;
 
 		$xpNeeded = ceil(($nextLevel / $xpGap) ** $difficulty - $experience);
-		return $xpNeeded;
+		return (int) $xpNeeded;
 	}
 }
