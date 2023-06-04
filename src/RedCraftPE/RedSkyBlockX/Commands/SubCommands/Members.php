@@ -6,6 +6,8 @@ namespace RedCraftPE\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use muqsit\invmenu\InvMenu;
+use pocketmine\block\utils\MobHeadType;
+use pocketmine\block\VanillaBlocks;
 use pocketmine\command\CommandSender;
 use pocketmine\item\VanillaItems;
 use pocketmine\utils\TextFormat;
@@ -30,7 +32,7 @@ class Members extends SBSubCommand {
 
 			foreach ($members as $member => $rank) {
 
-				$item = VanillaItems::PLAYER_HEAD();
+				$item = VanillaBlocks::MOB_HEAD()->setMobHeadType(MobHeadType::PLAYER())->asItem();
 				$item->setCustomName($member);
 				$item->setLore([$rank]);
 				$menu->getInventory()->addItem($item);
