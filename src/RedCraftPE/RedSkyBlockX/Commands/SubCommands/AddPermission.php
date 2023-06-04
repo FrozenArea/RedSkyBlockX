@@ -7,6 +7,7 @@ namespace RedCraftPE\RedSkyBlockX\Commands\SubCommands;
 use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use pocketmine\command\CommandSender;
+use pocketmine\player\Player;
 use RedCraftPE\RedSkyBlockX\Commands\SBSubCommand;
 
 class AddPermission extends SBSubCommand {
@@ -20,7 +21,7 @@ class AddPermission extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		$rank = strtolower($args["rank"]);
 		$permission = strtolower($args["permission"]);
 
