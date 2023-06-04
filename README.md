@@ -1,5 +1,8 @@
 # RedSkyBlockX
+
 [![CI](https://github.com/FrozenArea/RedSkyBlockX/actions/workflows/ci.yml/badge.svg)](https://github.com/FrozenArea/RedSkyBlockX/actions/workflows/ci.yml)
+[![Lint](https://poggit.pmmp.io/ci.shield/FrozenArea/RedSkyBlockX/RedSkyBlockX)](https://poggit.pmmp.io/ci/FrozenArea/RedSkyBlockX/RedSkyBlockX)
+
 RedSkyBlockX aims to be a feature rich, user-friendly SkyBlock plugin. RedSkyBlockX includes many useful, built-in features that can be edited in the config.yml and with the use of some commands in-game.
 
 # Contact
