@@ -119,7 +119,7 @@ class Info extends SBSubCommand {
 		$message = $this->getMShop()->construct("ISLAND_INFO_FULL");
 		$message = str_replace("{ISLAND_NAME}", $islandName, $message);
 		$message = str_replace("{ISLAND_CREATOR}", $islandCreator, $message);
-		$message = str_replace("{ISLAND_SIZE}", $islandSize, $message);
+		$message = str_replace("{ISLAND_SIZE}", (string) $islandSize, $message);
 		$message = str_replace("{ISLAND_VALUE}", $islandValue, $message);
 		$message = str_replace("{RESET_COOLDOWN}", $islandTimeToReset, $message);
 		$message = str_replace("{LOCK_STATUS}", $islandLockStatus, $message);
