@@ -1,7 +1,7 @@
 name: RedSkyBlockX
 author: [RedCraftPE, NhanAZ]
 version: 6.0.0-ALPHA
-api: 4.0.0
+api: 5.0.0
 main: RedCraftPE\RedSkyBlockX\SkyBlock
 permissions:
   redskyblockx.admin:
