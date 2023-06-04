@@ -9,7 +9,6 @@ use muqsit\invmenu\InvMenu;
 use pocketmine\block\utils\MobHeadType;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\command\CommandSender;
-use pocketmine\item\VanillaItems;
 use pocketmine\utils\TextFormat;
 use RedCraftPE\RedSkyBlockX\Commands\SBSubCommand;
 
