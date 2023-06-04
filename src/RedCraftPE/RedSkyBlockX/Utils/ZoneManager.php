@@ -111,8 +111,7 @@ class ZoneManager {
 
 					$block = $zoneWorld->getBlockAt((int) $x, (int) $y, (int) $z, true, false);
 					$blockName = str_replace(" ", "_", strtolower($block->getName()));
-					$blockMeta = $block->getMeta();
-					$blockData = "{$blockName}:{$blockMeta}";
+					$blockData = "{$blockName}";
 					array_push($zone, $blockData);
 				}
 			}
@@ -159,6 +158,7 @@ class ZoneManager {
 		if ($playerInv->contains(self::$zoneShovel)) {
 
 			$index = array_search(self::$zoneShovel, $invContents, true);
+			if (is_bool($index)) return;
 			$playerInv->setItem($index, VanillaItems::AIR());
 		}
 		if ($playerInv->contains(self::$spawnFeather)) {

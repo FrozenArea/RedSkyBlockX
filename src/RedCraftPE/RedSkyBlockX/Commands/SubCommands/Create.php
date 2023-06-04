@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RedCraftPE\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
+use NhanAZ\libBedrock\StringToBlock;
 use pocketmine\block\BlockFactory;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\command\CommandSender;
@@ -137,9 +138,8 @@ class Create extends SBSubCommand {
 
 												$blockData = explode(":", $zone[$counter]);
 												$blockName = $blockData[0];
-												$blockMeta = $blockData[1];
 												$block = StringToItemParser::getInstance()->parse($blockName)->getBlock();
-												$masterWorld->setBlock(new Vector3($x, $y, $z), BlockFactory::getInstance()->get($block->getID(), $blockMeta), false);
+												$masterWorld->setBlock(new Vector3($x, $y, $z), StringToBlock::parse($blockName), false);
 												$counter++;
 											}
 										}
