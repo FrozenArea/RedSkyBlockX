@@ -4,6 +4,9 @@ version: 6.0.0-ALPHA
 api: 5.0.0
 main: RedCraftPE\RedSkyBlockX\SkyBlock
 permissions:
+  redskyblockx.command:
+    default: true
+    description: With this permission players will recieve access to RedSkyBlockX commands.
   redskyblockx.admin:
     default: op
     description: With this permission players will recieve access to all RedSkyBlockX Admin commands.

@@ -69,6 +69,7 @@ class SBCommand extends BaseCommand {
 	}
 
 	protected function prepare(): void {
+		$this->setPermission("redskyblockx.command");
 
 		$this->registerArgument(0, new RawStringArgument("help", true));
 
@@ -356,5 +357,9 @@ class SBCommand extends BaseCommand {
 			$this->sendUsage();
 			return;
 		}
+	}
+
+	public function getPermission(): string {
+		return "redskyblockx.command";
 	}
 }
