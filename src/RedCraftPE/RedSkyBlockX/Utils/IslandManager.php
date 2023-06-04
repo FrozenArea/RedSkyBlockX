@@ -216,6 +216,7 @@ class IslandManager {
 	public function getMasterWorld(): ?world {
 
 		$masterWorldName = $this->plugin->skyblock->get("Master World");
+		if (is_bool($masterWorldName)) return null;
 		$masterWorld = $this->plugin->getServer()->getWorldManager()->getWorldByName($masterWorldName);
 		if ($masterWorld instanceof World) {
 
