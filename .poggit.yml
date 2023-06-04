@@ -1,4 +1,4 @@
---- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/nhanaz-pm-pl/RedSkyBlockX
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/FrozenArea/RedSkyBlockX
 build-by-default: true
 branches:
 - master
