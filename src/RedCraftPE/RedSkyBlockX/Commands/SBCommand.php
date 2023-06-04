@@ -62,6 +62,9 @@ class SBCommand extends BaseCommand {
 
 	protected $plugin;
 
+	/** @var string|null */
+	private $permission = null;
+
 	public function __construct(SkyBlock $plugin, string $name, string $description = "", array $aliases = []) {
 
 		$this->plugin = $plugin;
@@ -356,5 +359,9 @@ class SBCommand extends BaseCommand {
 			$this->sendUsage();
 			return;
 		}
+	}
+
+	public function getPermission() : ?string {
+		return $this->permission;
 	}
 }
