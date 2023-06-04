@@ -18,20 +18,25 @@ use NhanAZ\RedSkyBlockX\Utils\ZoneManager;
 
 class SkyBlock extends PluginBase {
 
-	public static $instance;
+	public static SkyBlock $instance;
 
-	public $listener;
-	public $mShop;
-	public $cfg;
-	public $skyblock;
-	public $messages;
-	public $zoneManager;
-	public $configManager;
-	public $islandManager;
+	public SkyblockListener $listener;
+
+	public MessageConstructor $mShop;
+
+	public Config $cfg;
+
+	public Config $skyblock;
+
+	public Config $messages;
+
+	public ZoneManager $zoneManager;
+
+	public ConfigManager $configManager;
+
+	public IslandManager $islandManager;
 
 	public function onEnable(): void {
-
-		//database setup:
 		if (!file_exists($this->getDataFolder() . "../RedSkyBlockX")) {
 
 			mkdir($this->getDataFolder() . "../RedSkyBlockX");
@@ -106,9 +111,9 @@ class SkyBlock extends PluginBase {
 			$masterWorld = false;
 		} else {
 
-			if ($this->getServer()->getWorldManager()->loadWorld($this->skyblock->get("Master World"))) {
+			if ($this->getServer()->getWorldManager()->loadWorld(strval($this->skyblock->get("Master World")))) {
 
-				$this->getServer()->getWorldManager()->loadWorld($this->skyblock->get("Master World"));
+				$this->getServer()->getWorldManager()->loadWorld(strval($this->skyblock->get("Master World")));
 				if ($this->cfg->get("Nether Islands")) {
 
 					$this->getServer()->getWorldManager()->loadWorld($this->skyblock->get("Master World") . "-Nether");
@@ -119,11 +124,11 @@ class SkyBlock extends PluginBase {
 				$this->getLogger()->info($message);
 			}
 
-			$masterWorld = $this->getServer()->getWorldManager()->getWorldByName($this->skyblock->get("Master World"));
+			$masterWorld = $this->getServer()->getWorldManager()->getWorldByName(strval($this->skyblock->get("Master World")));
 			if (!$masterWorld instanceof World) {
 
 				$message = $this->mShop->construct("MASTER_FAILED");
-				$message = str_replace("{MWORLD}", $this->skyblock->get("Master World"), $message);
+				$message = str_replace("{MWORLD}", strval($this->skyblock->get("Master World")), $message);
 				$this->getLogger()->info($message);
 				$masterWorld = null;
 			} else {
@@ -135,13 +140,11 @@ class SkyBlock extends PluginBase {
 		}
 	}
 
-	public static function getInstance() {
-
+	public static function getInstance() : SkyBlock {
 		return self::$instance;
 	}
 
-	public function onDisable(): void {
-
+	protected function onDisable(): void {
 		IslandManager::getInstance()->saveAllIslands();
 	}
 }
