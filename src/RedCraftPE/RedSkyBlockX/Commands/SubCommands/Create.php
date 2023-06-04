@@ -7,6 +7,8 @@ namespace RedCraftPE\RedSkyBlockX\Commands\SubCommands;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use NhanAZ\libBedrock\StringToBlock;
 use pocketmine\block\BlockFactory;
+use pocketmine\block\tile\Chest;
+use pocketmine\block\tile\Tile;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\command\CommandSender;
 use pocketmine\item\StringToItemParser;
@@ -150,10 +152,11 @@ class Create extends SBSubCommand {
 
 									$masterWorld->setBlock(new Vector3($initialSpawnPoint[0], $initialSpawnPoint[1] - 1, $initialSpawnPoint[2] + 1), VanillaBlocks::CHEST());
 									$startingChest = $masterWorld->getTileAt($initialSpawnPoint[0], $initialSpawnPoint[1] - 1, $initialSpawnPoint[2] + 1);
+									if (!$startingChest instanceof Tile) return;
+									if (!$startingChest instanceof Chest) return;
 									if (count($startingItems) !== 0) {
 
 										foreach ($startingItems as $itemName => $count) {
-
 											$item = StringToItemParser::getInstance()->parse($itemName);
 											$item->setCount(intval($count));
 											$startingChest->getInventory()->addItem($item);
