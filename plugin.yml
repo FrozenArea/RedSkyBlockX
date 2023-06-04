@@ -1,8 +1,8 @@
 name: RedSkyBlockX
-authors: [RedCraftPE, NhanAZ]
+authors: [NhanAZ, RedCraftPE]
 version: 6.0.0-ALPHA
 api: 5.0.0
-main: RedCraftPE\RedSkyBlockX\SkyBlock
+main: NhanAZ\RedSkyBlockX\SkyBlock
 permissions:
   redskyblockx.command:
     default: true
