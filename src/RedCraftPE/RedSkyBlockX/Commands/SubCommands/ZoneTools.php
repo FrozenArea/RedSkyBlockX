@@ -6,7 +6,6 @@ namespace RedCraftPE\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use pocketmine\command\CommandSender;
-use pocketmine\player\Player;
 use RedCraftPE\RedSkyBlockX\Commands\SBSubCommand;
 use RedCraftPE\RedSkyBlockX\Utils\ZoneManager;
 
@@ -24,9 +23,11 @@ class ZoneTools extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-		if (!$sender instanceof Player) return;
+
+		$plugin = $this->plugin;
 		$zoneKeeper = ZoneManager::getZoneKeeper();
 		$senderInv = $sender->getInventory();
+		$senderContents = $senderInv->getContents();
 		$zoneShovel = clone $this->zoneShovel;
 		$spawnFeather = clone $this->spawnFeather;
 
