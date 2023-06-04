@@ -74,7 +74,7 @@ class SkyBlock extends PluginBase {
 
 		//begin autosave
 		$autosaveTimer = $this->cfg->get("Autosave Timer");
-		$ticks = round($autosaveTimer * 1200); //converts minutes to ticks
+		$ticks = (int) round($autosaveTimer * 1200); //converts minutes to ticks
 		$this->getScheduler()->scheduleRepeatingTask(new AutoSaveIslands($this), $ticks);
 
 		//register PacketHooker:
