@@ -14,7 +14,6 @@ use RedCraftPE\RedSkyBlockX\Island;
 class Accept extends SBSubCommand {
 
 	public function prepare(): void {
-
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
 		$this->registerArgument(0, new TextArgument("island", false));
