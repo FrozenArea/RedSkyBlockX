@@ -53,8 +53,8 @@ class TopIslands extends SBSubCommand {
 		}
 
 		$message = $this->getMShop()->construct("TOP_ISLANDS");
-		$message = str_replace("{PAGE_NUMBER}", $pageNumber + 1, $message);
-		$message = str_replace("{TOTAL_PAGES}", $pageCount, $message);
+		$message = str_replace("{PAGE_NUMBER}", (string) ($pageNumber + 1), $message);
+		$message = str_replace("{TOTAL_PAGES}", (string) $pageCount, $message);
 		$message = str_replace("{POSITION_ONE}", $position1, $message);
 		$message = str_replace("{POSITION_TWO}", $position2, $message);
 		$message = str_replace("{POSITION_THREE}", $position3, $message);
