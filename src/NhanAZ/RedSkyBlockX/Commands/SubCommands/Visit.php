@@ -21,6 +21,9 @@ class Visit extends SBSubCommand {
 		$this->registerArgument(0, new TextArgument("target", false));
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) return;
 		if (isset($args["target"])) {

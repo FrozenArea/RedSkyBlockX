@@ -20,6 +20,9 @@ class RemovePermission extends SBSubCommand {
 		$this->registerArgument(1, new RawStringArgument("permission", false));
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) return;
 		$rank = strtolower($args["rank"]);

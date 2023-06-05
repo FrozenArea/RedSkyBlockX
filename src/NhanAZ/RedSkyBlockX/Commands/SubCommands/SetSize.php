@@ -20,6 +20,9 @@ class SetSize extends SBSubCommand {
 		$this->registerArgument(1, new TextArgument("name", false));
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 
 		$newSize = $args["size"];
@@ -31,18 +34,18 @@ class SetSize extends SBSubCommand {
 			$island = $this->plugin->islandManager->getIslandByCreatorName($playerName);
 			if ($island instanceof Island) {
 
-				$island->setSize($newSize);
+				$island->setSize(intval($newSize));
 
 				$message = $this->getMShop()->construct("PLAYER_ISLAND_SIZE_CHANGE");
 				$message = str_replace("{NAME}", $island->getCreator(), $message);
-				$message = str_replace("{SIZE}", $newSize, $message);
+				$message = str_replace("{SIZE}", strval($newSize), $message);
 				$sender->sendMessage($message);
 
 				$player = $this->plugin->getServer()->getPlayerExact($playerName);
 				if ($player instanceof Player) {
 
 					$message = $this->getMShop()->construct("ISLAND_SIZE_CHANGED");
-					$message = str_replace("{SIZE}", $newSize, $message);
+					$message = str_replace("{SIZE}", strval($newSize), $message);
 					$player->sendMessage($message);
 				}
 			} else {
@@ -54,7 +57,7 @@ class SetSize extends SBSubCommand {
 		} else {
 
 			$message = $this->getMShop()->construct("INT_LESS_THAN_ZERO");
-			$message = str_replace("{VALUE}", $newSize, $message);
+			$message = str_replace("{VALUE}", strval($newSize), $message);
 			$sender->sendMessage($message);
 		}
 	}

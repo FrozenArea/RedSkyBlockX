@@ -16,6 +16,9 @@ class SetWorld extends SBSubCommand {
 		$this->registerArgument(0, new RawStringArgument("name", false));
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 
 		if (isset($args["name"])) {

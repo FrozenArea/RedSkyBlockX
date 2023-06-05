@@ -14,6 +14,9 @@ abstract class SBSubCommand extends BaseSubCommand {
 
 	protected SkyBlock $plugin;
 
+	/**
+	 * @param array<string> $aliases
+	 */
 	public function __construct(SkyBlock $plugin, string $name, string $description = "", array $aliases = []) {
 
 		$this->plugin = $plugin;

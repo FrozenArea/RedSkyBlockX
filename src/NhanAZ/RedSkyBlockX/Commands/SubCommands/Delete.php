@@ -18,6 +18,9 @@ class Delete extends SBSubCommand {
 		$this->registerArgument(0, new TextArgument("island", false));
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 
 		$islandName = $args["island"];

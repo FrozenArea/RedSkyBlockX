@@ -21,6 +21,9 @@ class Setting extends SBSubCommand {
 		$this->registerArgument(1, new BooleanArgument("value", false));
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) return;
 		if ($this->checkIsland($sender)) {
@@ -42,7 +45,7 @@ class Setting extends SBSubCommand {
 					$biasStringVal = "off";
 				}
 
-				$island->changeSetting($setting, $bias);
+				$island->changeSetting($setting, boolval($bias));
 
 				$message = $this->getMShop()->construct("SETTING_CHANGED");
 				$message = str_replace("{SETTING}", $setting, $message);

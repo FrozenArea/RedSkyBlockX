@@ -346,6 +346,9 @@ class SBCommand extends BaseCommand {
 		));
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasused, array $args): void {
 
 		if (isset($args["help"])) {

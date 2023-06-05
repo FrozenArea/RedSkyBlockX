@@ -17,6 +17,9 @@ class UpdateZone extends SBSubCommand {
 		$this->setPermission("redskyblockx.admin;redskyblockx.zone");
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 
 		if ($this->checkZone()) {

@@ -19,6 +19,9 @@ class Accept extends SBSubCommand {
 		$this->registerArgument(0, new TextArgument("island", false));
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) return;
 		$islandName = $args["island"];

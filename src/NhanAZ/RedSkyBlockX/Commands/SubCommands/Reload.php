@@ -13,6 +13,9 @@ class Reload extends SBSubCommand {
 		$this->setPermission("redskyblockx.admin;redskyblockx.reload");
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 
 		$plugin = $this->plugin;

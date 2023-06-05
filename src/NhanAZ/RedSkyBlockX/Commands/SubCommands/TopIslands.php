@@ -18,6 +18,9 @@ class TopIslands extends SBSubCommand {
 		$this->registerArgument(0, new IntegerArgument("page #", true));
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 
 		$topIslands = $this->plugin->islandManager->getTopIslands();

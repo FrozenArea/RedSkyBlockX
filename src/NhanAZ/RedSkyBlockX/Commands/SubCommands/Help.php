@@ -20,6 +20,9 @@ class Help extends SBSubCommand {
 		$this->registerArgument(0, new RawStringArgument("command", true));
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 
 		$islandCommand = $this->parent;
@@ -73,11 +76,10 @@ class Help extends SBSubCommand {
 				if ($pageNumber > $pageCount) $pageNumber = $pageCount;
 				if ($pageNumber <= 0) $pageNumber = 1;
 			} else {
-
 				$pageNumber = 1;
 			}
 
-			$pageNumber -= 1;
+			$pageNumber = intval($pageNumber) - 1;
 			$index = $pageNumber * 6;
 			$commandsOnPage = array_slice($subCommandNames, $index, 6);
 			$command1 = "";

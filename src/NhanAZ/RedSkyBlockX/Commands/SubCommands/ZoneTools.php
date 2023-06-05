@@ -24,6 +24,9 @@ class ZoneTools extends SBSubCommand {
 		$this->spawnFeather = ZoneManager::getSpawnFeather();
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) return;
 		$zoneKeeper = ZoneManager::getZoneKeeper();

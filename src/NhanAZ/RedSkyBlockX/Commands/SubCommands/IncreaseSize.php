@@ -20,10 +20,13 @@ class IncreaseSize extends SBSubCommand {
 		$this->registerArgument(1, new TextArgument("name", false));
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 
 		$playerName = $args["name"];
-		$addAmount = $args["amount"];
+		$addAmount = intval($args["amount"]);
 		$island = $this->plugin->islandManager->getIslandByCreatorName($playerName);
 		if ($island instanceof Island) {
 

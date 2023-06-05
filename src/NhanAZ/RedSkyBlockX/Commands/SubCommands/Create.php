@@ -29,6 +29,9 @@ class Create extends SBSubCommand {
 		self::$instance = $this;
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) return;
 		if ($this->checkMasterWorld()) {

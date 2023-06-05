@@ -18,6 +18,9 @@ class Level extends SBSubCommand {
 		$this->setPermission("redskyblockx.island");
 	}
 
+	/**
+	 * @param array<string> $args
+	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) return;
 		$island = $this->plugin->islandManager->getIslandAtPlayer($sender);
