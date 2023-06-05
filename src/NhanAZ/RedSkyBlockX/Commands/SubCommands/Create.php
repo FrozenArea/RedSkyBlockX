@@ -30,9 +30,9 @@ use function Time;
 
 class Create extends SBSubCommand {
 
-	public static $instance;
+	public static Create $instance;
 
-	public function prepare() : void {
+	public function prepare(): void {
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
 		self::$instance = $this;
@@ -41,7 +41,7 @@ class Create extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 		if (!$sender instanceof Player) return;
 		if ($this->checkMasterWorld()) {
 			if ($this->checkZone()) {
@@ -96,6 +96,7 @@ class Create extends SBSubCommand {
 							}
 						}
 						$cSpawnVals = $plugin->skyblock->get("CSpawnVals", []);
+						if (!is_array($cSpawnVals)) return;
 						$initialSpawnPoint = [$lastX + $cSpawnVals[0], $islandSpawnY + $cSpawnVals[1], $lastZ + $cSpawnVals[2]];
 						$islandData = [
 							"creator" => $senderName,
@@ -114,7 +115,7 @@ class Create extends SBSubCommand {
 						foreach ($adjacentChunks as $chunk) {
 							if ($chunk === end($adjacentChunks)) {
 								if ($masterWorld === null) return;
-								$masterWorld->orderChunkPopulation($chunk[0], $chunk[1], null)->onCompletion(function (Chunk $chunk) use ($lastX, $lastZ, $islandSpawnY, $masterWorld, $plugin, $sender, $islandData, $zone, $zoneSize, $initialSpawnPoint, $startingItems) : void {
+								$masterWorld->orderChunkPopulation($chunk[0], $chunk[1], null)->onCompletion(function (Chunk $chunk) use ($lastX, $lastZ, $islandSpawnY, $masterWorld, $plugin, $sender, $islandData, $zone, $zoneSize, $initialSpawnPoint, $startingItems): void {
 									$counter = 0;
 									for ($x = $lastX; $x <= $lastX + $zoneSize[0]; $x++) {
 										for ($y = $islandSpawnY; $y <= $islandSpawnY + $zoneSize[1]; $y++) {
@@ -132,6 +133,7 @@ class Create extends SBSubCommand {
 									$startingChest = $masterWorld->getTileAt($initialSpawnPoint[0], $initialSpawnPoint[1] - 1, $initialSpawnPoint[2] + 1);
 									if (!$startingChest instanceof Tile) return;
 									if (!$startingChest instanceof Chest) return;
+									if (!is_array($startingItems)) return;
 									if (count($startingItems) !== 0) {
 										foreach ($startingItems as $itemName => $count) {
 											$item = StringToItem::parse(strval($itemName));
@@ -149,7 +151,8 @@ class Create extends SBSubCommand {
 										$message = $this->getMShop()->construct("FILE_CREATION_ERROR");
 										$sender->sendMessage($message);
 									}
-								}, static fn () => null);
+								}, static function (): void {
+								});
 							} else {
 								if ($masterWorld === null) return;
 								$masterWorld->orderChunkPopulation($chunk[0], $chunk[1], null);
@@ -176,7 +179,7 @@ class Create extends SBSubCommand {
 		}
 	}
 
-	public static function getInstance() : self {
+	public static function getInstance(): self {
 		return self::$instance;
 	}
 }

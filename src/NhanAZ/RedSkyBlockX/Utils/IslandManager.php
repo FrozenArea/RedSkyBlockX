@@ -30,7 +30,7 @@ use function unlink;
 
 class IslandManager {
 
-	private $plugin;
+	private SkyBlock $plugin;
 
 	private $islands = [];
 

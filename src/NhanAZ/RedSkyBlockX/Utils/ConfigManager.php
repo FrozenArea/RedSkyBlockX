@@ -16,7 +16,7 @@ use function yaml_parse;
 
 class ConfigManager {
 
-	private $plugin;
+	private SkyBlock $plugin;
 
 	public function __construct(SkyBlock $plugin) {
 		$this->plugin = $plugin;

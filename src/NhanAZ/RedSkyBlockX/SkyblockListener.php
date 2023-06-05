@@ -238,7 +238,7 @@ class SkyblockListener implements Listener {
 		}
 	}
 
-	public function onPlace(BlockPlaceEvent $event) {
+	public function onPlace(BlockPlaceEvent $event) : void {
 		$plugin = $this->plugin;
 		$masterWorld = $plugin->islandManager->getMasterWorld();
 		$blocks = $event->getTransaction()->getBlocks();
@@ -278,7 +278,7 @@ class SkyblockListener implements Listener {
 		}
 	}
 
-	public function onTeleport(EntityTeleportEvent $event) {
+	public function onTeleport(EntityTeleportEvent $event) : void {
 		$entity = $event->getEntity();
 		if ($entity instanceof Player) {
 			$entityEndWorld = $event->getTo()->world;
@@ -292,7 +292,7 @@ class SkyblockListener implements Listener {
 		}
 	}
 
-	public function onDamage(EntityDamageEvent $event) {
+	public function onDamage(EntityDamageEvent $event) : void {
 		$plugin = $this->plugin;
 		$entity = $event->getEntity();
 		$masterWorld = $plugin->islandManager->getMasterWorld();
@@ -319,7 +319,7 @@ class SkyblockListener implements Listener {
 		}
 	}
 
-	public function onDamageByEntity(EntityDamageByEntityEvent $event) {
+	public function onDamageByEntity(EntityDamageByEntityEvent $event) : void {
 		$plugin = $this->plugin;
 		$attackingEntity = $event->getDamager();
 		$entity = $event->getEntity();
@@ -334,7 +334,7 @@ class SkyblockListener implements Listener {
 		}
 	}
 
-	public function onExhaust(PlayerExhaustEvent $event) {
+	public function onExhaust(PlayerExhaustEvent $event) : void {
 		$plugin = $this->plugin;
 		$player = $event->getPlayer();
 		$playerWorld = $player->getWorld();
@@ -345,7 +345,7 @@ class SkyblockListener implements Listener {
 		}
 	}
 
-	public function onPickup(EntityItemPickupEvent $event) {
+	public function onPickup(EntityItemPickupEvent $event) : void {
 		$entity = $event->getEntity();
 		if ($entity instanceof Player) {
 			$island = $this->plugin->islandManager->getIslandAtPlayer($entity);
@@ -366,7 +366,7 @@ class SkyblockListener implements Listener {
 		}
 	}
 
-	public function onDeath(PlayerDeathEvent $event) {
+	public function onDeath(PlayerDeathEvent $event) : void {
 		$keepInventory = $this->plugin->cfg->get("Keep Inventory");
 		$playerWorld = $event->getPlayer()->getWorld();
 		$masterWorld = $this->plugin->islandManager->getMasterWorld();
@@ -375,7 +375,7 @@ class SkyblockListener implements Listener {
 		}
 	}
 
-	public function onMove(PlayerMoveEvent $event) {
+	public function onMove(PlayerMoveEvent $event) : void {
 		$player = $event->getPlayer();
 		$playerWorld = $player->getWorld();
 		$masterWorld = $this->plugin->islandManager->getMasterWorld();
@@ -389,7 +389,7 @@ class SkyblockListener implements Listener {
 		}
 	}
 
-	public function onChat(PlayerChatEvent $event) {
+	public function onChat(PlayerChatEvent $event) : void {
 		$player = $event->getPlayer();
 		$message = $event->getMessage();
 		$channel = $this->plugin->islandManager->searchIslandChannels($player->getName());
@@ -404,7 +404,7 @@ class SkyblockListener implements Listener {
 		}
 	}
 
-	public function onBucket(PlayerBucketEvent $event) {
+	public function onBucket(PlayerBucketEvent $event) : void {
 		$player = $event->getPlayer();
 		$block = $event->getBlockClicked();
 		$island = $this->plugin->islandManager->getIslandAtBlock($block);

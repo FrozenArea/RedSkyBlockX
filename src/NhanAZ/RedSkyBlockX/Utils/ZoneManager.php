@@ -24,26 +24,30 @@ class ZoneManager {
 
 	private static SkyBlock $plugin;
 
-	private static $zone;
+	/** @var array<string> $zone */
+	private static array $zone;
 
-	private static $zoneShovel;
+	private static Item $zoneShovel;
 
-	private static $spawnFeather;
+	private static Item $spawnFeather;
 
-	private static $zoneKeeper = null;
+	private static ?Player $zoneKeeper = null;
 
-	private static $zoneWorld;
+	private static string $zoneWorld;
 
-	private static $pos1 = null;
+	private static ?Position $pos1 = null;
 
-	private static $pos2 = null;
+	private static ?Position $pos2 = null;
 
-	private static $spawnPosition = null;
+	private static ?Position $spawnPosition = null;
 
+	/** @var array<int> $zoneSpawn */
 	private static $zoneSpawn;
 
+	/** @var array<int> $zoneSize */
 	private static $zoneSize;
 
+	/** @var array<int> $zoneStartPosition */
 	private static $zoneStartPosition;
 
 	public function __construct(SkyBlock $plugin) {
@@ -161,7 +165,7 @@ class ZoneManager {
 		return self::$zoneKeeper;
 	}
 
-	public static function setZoneKeeper($zoneKeeper = null) : void {
+	public static function setZoneKeeper(?Player $zoneKeeper = null) : void {
 		self::$zoneKeeper = $zoneKeeper;
 	}
 

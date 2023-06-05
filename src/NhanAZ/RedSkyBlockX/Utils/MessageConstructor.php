@@ -20,7 +20,7 @@ class MessageConstructor {
 
 	public static MessageConstructor $instance;
 
-	public $plugin;
+	public SkyBlock $plugin;
 
 	protected $messages;
 
