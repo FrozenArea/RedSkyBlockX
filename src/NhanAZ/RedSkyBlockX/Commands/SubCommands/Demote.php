@@ -21,11 +21,12 @@ class Demote extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		if ($this->checkIsland($sender)) {
 
 			$playerName = strtolower($args["player"]);
 			$island = $this->plugin->islandManager->getIsland($sender);
+			if ($island === null) return;
 			$members = $island->getMembers();
 			if (array_key_exists($playerName, $members)) {
 

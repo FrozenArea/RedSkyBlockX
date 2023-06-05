@@ -34,13 +34,14 @@ class Level extends SBSubCommand {
 		} elseif ($this->checkIsland($sender)) {
 
 			$island = $this->plugin->islandManager->getIsland($sender);
+			if ($island === null) return;
 			$islandLevel = $island->calculateLevel($island->getXP());
 			$xpNeeded = $island->getXPNeeded($island->getXP()) + $island->getXP();
 
 			$message = $this->getMShop()->construct("ISLAND_LEVEL_SELF");
-			$message = str_replace("{LEVEL}", $islandLevel, $message);
-			$message = str_replace("{XP}", $island->getXP(), $message);
-			$message = str_replace("{XP_NEEDED}", $xpNeeded, $message);
+			$message = str_replace("{LEVEL}", strval($islandLevel), $message);
+			$message = str_replace("{XP}", strval($island->getXP()), $message);
+			$message = str_replace("{XP_NEEDED}", strval($xpNeeded), $message);
 			$sender->sendMessage($message);
 		} else {
 

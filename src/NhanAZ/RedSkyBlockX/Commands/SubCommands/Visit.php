@@ -64,6 +64,7 @@ class Visit extends SBSubCommand {
 				if ($this->checkIsland($player)) {
 
 					$island = $this->plugin->islandManager->getIsland($player);
+					if ($island === null) return;
 					$islandCreator = $island->getCreator();
 					$islandName = $island->getName();
 					$members = $island->getMembers();

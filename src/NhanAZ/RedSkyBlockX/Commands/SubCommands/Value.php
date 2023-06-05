@@ -9,6 +9,7 @@ use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use pocketmine\command\CommandSender;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use NhanAZ\RedSkyBlockX\Island;
+use pocketmine\player\Player;
 
 class Value extends SBSubCommand {
 
@@ -20,7 +21,7 @@ class Value extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		if (isset($args["island"])) {
 
 			$islandName = $args["island"];
@@ -30,7 +31,7 @@ class Value extends SBSubCommand {
 				$value = $island->getValue();
 
 				$message = $this->getMShop()->construct("ISLAND_VALUE_OTHER");
-				$message = str_replace("{VALUE}", $value, $message);
+				$message = str_replace("{VALUE}", strval($value), $message);
 				$message = str_replace("{NAME}", $islandName, $message);
 				$sender->sendMessage($message);
 			} else {
@@ -40,14 +41,14 @@ class Value extends SBSubCommand {
 				$sender->sendMessage($message);
 			}
 		} else {
-
 			if ($this->checkIsland($sender)) {
 
 				$island = $this->plugin->islandManager->getIsland($sender);
+				if ($island === null) return;
 				$value = $island->getValue();
 
 				$message = $this->getMShop()->construct("ISLAND_VALUE_SELF");
-				$message = str_replace("{VALUE}", $value, $message);
+				$message = str_replace("{VALUE}", strval($value), $message);
 				$sender->sendMessage($message);
 			} else {
 

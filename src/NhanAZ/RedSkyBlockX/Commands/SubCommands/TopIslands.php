@@ -39,12 +39,12 @@ class TopIslands extends SBSubCommand {
 		$index = $pageNumber * 6;
 		$islandsOnPage = array_slice($islandNames, $index, 6);
 
-		$position1 = "#" . $index + 1 . "--N/A";
-		$position2 = "#" . $index + 2 . "--N/A";
-		$position3 = "#" . $index + 3 . "--N/A";
-		$position4 = "#" . $index + 4 . "--N/A";
-		$position5 = "#" . $index + 5 . "--N/A";
-		$position6 = "#" . $index + 6 . "--N/A";
+		$position1 = "#" . ($index + 1) . "--N/A";
+		$position2 = "#" . ($index + 2) . "--N/A";
+		$position3 = "#" . ($index + 3) . "--N/A";
+		$position4 = "#" . ($index + 4) . "--N/A";
+		$position5 = "#" . ($index + 5) . "--N/A";
+		$position6 = "#" . ($index + 6) . "--N/A";
 
 		for ($x = 0; $x < count($islandsOnPage); $x++) {
 

@@ -28,21 +28,21 @@ class IncreaseSize extends SBSubCommand {
 		if ($island instanceof Island) {
 
 			$newSize = $island->getSize() + $addAmount;
-			$maxSize = (int) $this->plugin->cfg->get("Island Max Size");
+			$maxSize =  intval($this->plugin->cfg->get("Island Max Size"));
 			if ($newSize > $maxSize) $newSize = $maxSize;
 
 			$island->setSize($newSize);
 
 			$message = $this->getMShop()->construct("PLAYER_ISLAND_SIZE_CHANGE");
-			$message = str_replace("{NAME}", $island->getCreator(), $message);
-			$message = str_replace("{SIZE}", $newSize, $message);
+			$message = str_replace("{NAME}", strval($island->getCreator()), $message);
+			$message = str_replace("{SIZE}", strval($newSize), $message);
 			$sender->sendMessage($message);
 
 			$player = $this->plugin->getServer()->getPlayerExact($playerName);
 			if ($player instanceof Player) {
 
 				$message = $this->getMShop()->construct("ISLAND_SIZE_CHANGED");
-				$message = str_replace("{SIZE}", $newSize, $message);
+				$message = str_replace("{SIZE}", strval($newSize), $message);
 				$player->sendMessage($message);
 			}
 		} else {

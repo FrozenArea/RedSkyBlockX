@@ -20,48 +20,38 @@ class Remove extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		if (isset($args["name"])) {
-
 			if ($this->checkIsland($sender)) {
-
 				$name = $args["name"];
 				$island = $this->plugin->islandManager->getIsland($sender);
+				if ($island === null) return;
 				$creator = $island->getCreator();
-
 				if (strtolower($name) !== strtolower($creator)) {
-
 					if ($island->removeMember($name)) {
-
 						$message = $this->getMShop()->construct("MEMBER_REMOVED");
 						$message = str_replace("{NAME}", $name, $message);
 						$sender->sendMessage($message);
-
 						$player = $this->plugin->getServer()->getPlayerExact($name);
 						if ($player instanceof Player) {
-
 							$message = $this->getMShop()->construct("REMOVED_FROM_ISLAND");
 							$message = str_replace("{ISLAND_NAME}", $island->getName(), $message);
 							$player->sendMessage($message);
 						}
 					} else {
-
 						$message = $this->getMShop()->construct("NOT_A_MEMBER_OTHER");
 						$message = str_replace("{NAME}", $name, $message);
 						$sender->sendMessage($message);
 					}
 				} else {
-
 					$message = $this->getMShop()->construct("CANT_REMOVE_SELF");
 					$sender->sendMessage($message);
 				}
 			} else {
-
 				$message = $this->getMShop()->construct("NO_ISLAND");
 				$sender->sendMessage($message);
 			}
 		} else {
-
 			$this->sendUsage();
 			return;
 		}

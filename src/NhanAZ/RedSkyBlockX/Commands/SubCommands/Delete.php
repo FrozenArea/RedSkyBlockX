@@ -25,7 +25,9 @@ class Delete extends SBSubCommand {
 		if ($island instanceof Island) {
 
 			$playersOnIsland = $this->plugin->islandManager->getPlayersAtIsland($island);
-			$spawn = $this->plugin->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn();
+			$spawn = $this->plugin->getServer()->getWorldManager()->getDefaultWorld();
+			if ($spawn === null) return;
+			$spawn = $spawn->getSafeSpawn();
 
 			$islandCreator = $this->plugin->getServer()->getPlayerExact($island->getCreator());
 			if ($islandCreator instanceof Player) {
@@ -40,6 +42,7 @@ class Delete extends SBSubCommand {
 			foreach ($playersOnIsland as $playerName) {
 
 				$player = $this->plugin->getServer()->getPlayerExact($playerName);
+				if ($player === null) return;
 				$message = $this->getMShop()->construct("ISLAND_ON_DELETED");
 				$player->sendMessage($message);
 				$player->teleport($spawn);

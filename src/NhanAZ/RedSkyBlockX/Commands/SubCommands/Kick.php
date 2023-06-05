@@ -21,7 +21,7 @@ class Kick extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		$name = $args["name"];
 		$island = $this->plugin->islandManager->getIslandAtPlayer($sender);
 		if (!($island instanceof Island)) {
@@ -36,7 +36,7 @@ class Kick extends SBSubCommand {
 				return;
 			}
 		}
-
+		if ($island === null) return;
 		$members = $island->getMembers();
 		if (array_key_exists(strtolower($sender->getName()), $members) || $sender->getName() === $island->getCreator() || $sender->hasPermission("redskyblockx.admin")) {
 
@@ -111,7 +111,9 @@ class Kick extends SBSubCommand {
 				$message = str_replace("{ISLAND_NAME}", $island->getName(), $message);
 				$player->sendMessage($message);
 
-				$spawn = $this->plugin->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn();
+				$spawn = $this->plugin->getServer()->getWorldManager()->getDefaultWorld();
+				if ($spawn === null) return;
+				$spawn = $spawn->getSafeSpawn();
 				$player->teleport($spawn);
 			} else {
 

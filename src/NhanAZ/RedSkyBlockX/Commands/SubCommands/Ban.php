@@ -21,7 +21,7 @@ class Ban extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		$island = $this->plugin->islandManager->getIslandAtPlayer($sender);
 		$name = $args["name"];
 
@@ -67,8 +67,9 @@ class Ban extends SBSubCommand {
 								if ($player instanceof Player && !$player->hasPermission("redskyblockx.admin")) {
 
 									if ($this->plugin->islandManager->isOnIsland($player, $island)) {
-
-										$spawn = $this->plugin->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn();
+										$world = $this->plugin->getServer()->getWorldManager()->getDefaultWorld();
+										if ($world === null) return;
+										$spawn = $world->getSafeSpawn();
 										$player->teleport($spawn);
 									}
 									$message = $this->getMShop()->construct("BANNED");
@@ -108,8 +109,9 @@ class Ban extends SBSubCommand {
 							if ($player instanceof Player && !$player->hasPermission("redskyblockx.admin")) {
 
 								if ($this->plugin->islandManager->isOnIsland($player, $island)) {
-
-									$spawn = $this->plugin->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn();
+									$world = $this->plugin->getServer()->getWorldManager()->getDefaultWorld();
+									if ($world === null) return;
+									$spawn = $world->getSafeSpawn();
 									$player->teleport($spawn);
 								}
 								$message = $this->getMShop()->construct("BANNED");
@@ -137,6 +139,7 @@ class Ban extends SBSubCommand {
 		} elseif ($this->checkIsland($sender)) {
 
 			$island = $this->plugin->islandManager->getIsland($sender);
+			if ($island === null) return;
 			$creator = $island->getCreator();
 			$island->removeMember($name);
 
@@ -153,7 +156,9 @@ class Ban extends SBSubCommand {
 
 						if ($this->plugin->islandManager->isOnIsland($player, $island)) {
 
-							$spawn = $this->plugin->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn();
+							$world = $this->plugin->getServer()->getWorldManager()->getDefaultWorld();
+							if ($world === null) return;
+							$spawn = $world->getSafeSpawn();
 							$player->teleport($spawn);
 						}
 						$message = $this->getMShop()->construct("BANNED");

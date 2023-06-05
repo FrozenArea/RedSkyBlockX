@@ -12,10 +12,10 @@ class Island {
 	public const MEMBER_RANKS = ["member", "helper", "moderator", "admin"];
 	public const MEMBER_PERMISSIONS = ["island.place", "island.break", "island.interact", "island.kick", "island.ban", "island.spawn", "island.lock", "island.name"];
 
-	private $creator;
-	private $name;
-	private $size;
-	private $value;
+	private string $creator;
+	private string $name;
+	private int $size;
+	private int $value;
 	private $initialSpawnPoint;
 	private $spawnPoint;
 	private $members;

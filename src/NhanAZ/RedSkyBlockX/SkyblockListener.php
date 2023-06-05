@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace NhanAZ\RedSkyBlockX;
 
+use NhanAZ\libBedrock\StringToBlock;
 use pocketmine\block\Block;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockFormEvent;
@@ -22,7 +23,6 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\item\StringToItemParser;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
@@ -39,8 +39,7 @@ class SkyblockListener implements Listener {
 		$plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
 	}
 
-	public function onForm(BlockFormEvent $event) {
-
+	public function onForm(BlockFormEvent $event): void {
 		$plugin = $this->plugin;
 		$block = $event->getBlock();
 		$world = $block->getPosition()->getWorld()->getFolderName();
@@ -68,7 +67,7 @@ class SkyblockListener implements Listener {
 
 						if ($randomNumber <= $percentChance) {
 
-							$genBlock = StringToItemParser::getInstance()->parse($blockName)->getBlock();
+							$genBlock = StringToBlock::parse(strval($blockName));
 							break;
 						}
 					}
@@ -178,7 +177,7 @@ class SkyblockListener implements Listener {
 		}
 	}
 
-	public function onBreak(BlockBreakEvent $event) {
+	public function onBreak(BlockBreakEvent $event): void {
 
 		$plugin = $this->plugin;
 		$player = $event->getPlayer();

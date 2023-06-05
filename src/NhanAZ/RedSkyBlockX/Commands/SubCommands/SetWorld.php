@@ -10,8 +10,6 @@ use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 
 class SetWorld extends SBSubCommand {
 
-	private $islandCount; //will use later for reconfiguration
-
 	protected function prepare(): void {
 
 		$this->setPermission("redskyblockx.admin;redskyblockx.setworld");
@@ -46,8 +44,8 @@ class SetWorld extends SBSubCommand {
 				}
 			} else {
 
-				$message = $this->getMShop()->construct("NO_CHANGE");
-				$message = str_replace("{WORLD}", $name, $message);
+				$message = strval($this->getMShop()->construct("NO_CHANGE"));
+				$message = str_replace("{WORLD}", strval($name), $message);
 				$sender->sendMessage($message);
 				return;
 			}

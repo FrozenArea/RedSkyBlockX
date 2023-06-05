@@ -9,6 +9,7 @@ use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use pocketmine\command\CommandSender;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
+use pocketmine\player\Player;
 
 class Setting extends SBSubCommand {
 
@@ -21,10 +22,11 @@ class Setting extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		if ($this->checkIsland($sender)) {
 
 			$island = $this->plugin->islandManager->getIsland($sender);
+			if ($island === null) return;
 			$defaultSettings = $island->getDefaultSettings();
 			$setting = $args["setting"];
 			if (array_key_exists($setting, $defaultSettings)) {
@@ -55,7 +57,7 @@ class Setting extends SBSubCommand {
 		} else {
 
 			$message = $this->getMShop()->construct("NO_ISLAND");
-			$sender->sendMessage($sender);
+			$sender->sendMessage($message);
 		}
 	}
 }

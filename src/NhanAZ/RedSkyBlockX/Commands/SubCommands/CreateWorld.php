@@ -26,8 +26,9 @@ class CreateWorld extends SBSubCommand {
 	  $plugin = $this->plugin;
 
 	  if (!$plugin->getServer()->getWorldManager()->loadWorld($name)) {
-
-		$generator = GeneratorManager::getInstance()->getGenerator("flat")->getGeneratorClass();
+		$generator = GeneratorManager::getInstance()->getGenerator("flat");
+		if ($generator === null) return;
+		$generator = $generator->getGeneratorClass();
 		$worldCreator = WorldCreationOptions::create()->setGeneratorOptions("3;minecraft:air");
 		$worldCreator->setGeneratorClass($generator);
 

@@ -8,6 +8,7 @@ use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use pocketmine\command\CommandSender;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
+use pocketmine\player\Player;
 
 class RemovePermission extends SBSubCommand {
 
@@ -20,13 +21,14 @@ class RemovePermission extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		$rank = strtolower($args["rank"]);
 		$permission = strtolower($args["permission"]);
 
 		if ($this->checkIsland($sender)) {
 
 			$island = $this->plugin->islandManager->getIsland($sender);
+			if ($island === null) return;
 			if ($island->removePermission($rank, $permission)) {
 
 				$message = $this->getMShop()->construct("PERMISSION_REMOVED");

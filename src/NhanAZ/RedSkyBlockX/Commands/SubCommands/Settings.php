@@ -15,6 +15,7 @@ use pocketmine\item\StringToItemParser;
 use pocketmine\item\VanillaItems;
 use pocketmine\utils\TextFormat;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
+use pocketmine\player\Player;
 
 class Settings extends SBSubCommand {
 
@@ -25,10 +26,11 @@ class Settings extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		if ($this->checkIsland($sender)) {
 
 			$island = $this->plugin->islandManager->getIsland($sender);
+			if ($island === null) return;
 			$islandSettings = $island->getSettings();
 
 			$menu = InvMenu::create(InvMenu::TYPE_CHEST);

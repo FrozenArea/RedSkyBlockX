@@ -9,9 +9,9 @@ use NhanAZ\RedSkyBlockX\SkyBlock;
 
 class MessageConstructor {
 
-	public static $instance;
+	public static MessageConstructor $instance;
 	public $plugin;
-	private $messages;
+	protected $messages;
 
 	public function __construct(SkyBlock $plugin) {
 

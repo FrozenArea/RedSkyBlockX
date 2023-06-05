@@ -6,12 +6,11 @@ namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use NhanAZ\libBedrock\StringToBlock;
-use pocketmine\block\BlockFactory;
+use NhanAZ\libBedrock\StringToItem;
 use pocketmine\block\tile\Chest;
 use pocketmine\block\tile\Tile;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\command\CommandSender;
-use pocketmine\item\StringToItemParser;
 use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\world\format\Chunk;
@@ -37,7 +36,7 @@ class Create extends SBSubCommand {
 			if ($this->checkZone()) {
 
 				$plugin = $this->plugin;
-				$masterWorldName = $plugin->skyblock->get("Master World");
+				$masterWorldName = strval($plugin->skyblock->get("Master World"));
 
 				if (!$plugin->getServer()->getWorldManager()->isWorldLoaded($masterWorldName)) {
 
@@ -128,7 +127,7 @@ class Create extends SBSubCommand {
 						foreach ($adjacentChunks as $chunk) {
 
 							if ($chunk === end($adjacentChunks)) {
-
+								if ($masterWorld === null) return;
 								$masterWorld->orderChunkPopulation($chunk[0], $chunk[1], null)->onCompletion(function (Chunk $chunk) use ($lastX, $lastZ, $islandSpawnY, $masterWorld, $plugin, $sender, $islandData, $zone, $zoneSize, $initialSpawnPoint, $startingItems): void {
 
 									$counter = 0;
@@ -141,8 +140,8 @@ class Create extends SBSubCommand {
 
 												$blockData = explode(":", $zone[$counter]);
 												$blockName = $blockData[0];
-												$block = StringToItemParser::getInstance()->parse($blockName)->getBlock();
-												$masterWorld->setBlock(new Vector3($x, $y, $z), StringToBlock::parse($blockName), false);
+												$block = StringToBlock::parse($blockName);
+												$masterWorld->setBlock(new Vector3(floatval($x), floatval($y), floatval($z)), $block, false);
 												$counter++;
 											}
 										}
@@ -157,7 +156,7 @@ class Create extends SBSubCommand {
 									if (count($startingItems) !== 0) {
 
 										foreach ($startingItems as $itemName => $count) {
-											$item = StringToItemParser::getInstance()->parse($itemName);
+											$item = StringToItem::parse(strval($itemName));
 											$item->setCount(intval($count));
 											$startingChest->getInventory()->addItem($item);
 										}
@@ -178,7 +177,7 @@ class Create extends SBSubCommand {
 									}
 								}, static fn () => null);
 							} else {
-
+								if ($masterWorld === null) return;
 								$masterWorld->orderChunkPopulation($chunk[0], $chunk[1], null);
 							}
 						}

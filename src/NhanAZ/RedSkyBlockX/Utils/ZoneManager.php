@@ -14,7 +14,7 @@ use NhanAZ\RedSkyBlockX\SkyBlock;
 
 class ZoneManager {
 
-	private static $plugin;
+	private static SkyBlock $plugin;
 
 	private static $zone;
 

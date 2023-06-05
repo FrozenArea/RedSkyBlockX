@@ -9,6 +9,7 @@ use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use pocketmine\command\CommandSender;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use NhanAZ\RedSkyBlockX\Island;
+use pocketmine\player\Player;
 
 class Chat extends SBSubCommand {
 
@@ -20,7 +21,7 @@ class Chat extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		if (isset($args["island"])) {
 
 			$islandName = $args["island"];
@@ -41,7 +42,7 @@ class Chat extends SBSubCommand {
 					} else {
 
 						//if not already in chat then check if in any other island chats. if yes be removed from them.
-						$currentChannel = $this->plugin->islandManager->searchIslandChannels($sender);
+						$currentChannel = $this->plugin->islandManager->searchIslandChannels($sender->getName());
 						if ($currentChannel instanceof Island) {
 
 							$currentChannel->removeChatter($sender->getName());
@@ -85,6 +86,7 @@ class Chat extends SBSubCommand {
 				if ($this->checkIsland($sender)) {
 
 					$island = $this->plugin->islandManager->getIsland($sender);
+					if ($island === null) return;
 					$island->addChatter($sender->getName());
 
 					$message = $this->getMShop()->construct("JOIN_ISLAND_CHAT");

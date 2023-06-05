@@ -28,6 +28,7 @@ class AddPermission extends SBSubCommand {
 		if ($this->checkIsland($sender)) {
 
 			$island = $this->plugin->islandManager->getIsland($sender);
+			if ($island === null) return;
 			if ($island->addPermission($rank, $permission)) {
 
 				$message = $this->getMShop()->construct("PERMISSION_ADDED");

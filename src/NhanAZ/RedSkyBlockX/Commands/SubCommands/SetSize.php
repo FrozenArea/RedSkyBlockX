@@ -23,7 +23,7 @@ class SetSize extends SBSubCommand {
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
 
 		$newSize = $args["size"];
-		$maxSize = (int) $this->plugin->cfg->get("Island Max Size");
+		$maxSize = intval($this->plugin->cfg->get("Island Max Size"));
 		if ($newSize > $maxSize) $newSize = $maxSize;
 		if ($newSize >= 0) {
 

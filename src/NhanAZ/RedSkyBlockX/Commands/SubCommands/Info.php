@@ -8,6 +8,7 @@ use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use pocketmine\command\CommandSender;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use NhanAZ\RedSkyBlockX\Island;
+use pocketmine\player\Player;
 
 class Info extends SBSubCommand {
 
@@ -18,7 +19,7 @@ class Info extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		$island = $this->plugin->islandManager->getIslandAtPlayer($sender);
 		if ($island instanceof Island) {
 
@@ -60,6 +61,7 @@ class Info extends SBSubCommand {
 			if ($this->checkIsland($sender)) {
 
 				$island = $this->plugin->islandManager->getIsland($sender);
+				if ($island === null) return;
 				$sender->sendMessage($this->getIslandInfoFull($island));
 			} else {
 

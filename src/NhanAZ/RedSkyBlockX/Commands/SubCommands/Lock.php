@@ -8,6 +8,7 @@ use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use pocketmine\command\CommandSender;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use NhanAZ\RedSkyBlockX\Island;
+use pocketmine\player\Player;
 
 class Lock extends SBSubCommand {
 
@@ -18,7 +19,7 @@ class Lock extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		$island = $this->plugin->islandManager->getIslandAtPlayer($sender);
 		if (!($island instanceof Island)) {
 
@@ -32,7 +33,7 @@ class Lock extends SBSubCommand {
 				return;
 			}
 		}
-
+		if ($island === null) return;
 		$members = $island->getMembers();
 		if (array_key_exists(strtolower($sender->getName()), $members) || $sender->getName() === $island->getCreator() || $sender->hasPermission("redskyblockx.admin")) {
 

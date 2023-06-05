@@ -40,7 +40,9 @@ class Help extends SBSubCommand {
 				$command = $subCommands[$commandName];
 				$commandDescription = $command->getDescription();
 				$commandUsage = $command->getUsageMessage();
-				$commandPermissions = implode(" or ", explode(";", $command->getPermission()));
+				$commandPermissions = $command->getPermission();
+				if ($commandPermissions === null) return;
+				$commandPermissions = implode(" or ", explode(";", $commandPermissions));
 				$commandAliases = $command->getAliases();
 				if (count($commandAliases) !== 0) {
 

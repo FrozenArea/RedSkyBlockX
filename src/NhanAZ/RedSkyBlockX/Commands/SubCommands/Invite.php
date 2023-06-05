@@ -20,16 +20,17 @@ class Invite extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		if (isset($args["name"])) {
 
 			$name = strtolower($args["name"]);
 			if ($this->checkIsland($sender)) {
 
 				$island = $this->plugin->islandManager->getIsland($sender);
+				if ($island === null) return;
 				$members = $island->getMembers();
 				$banned = $island->getBanned();
-				$memberLimit = (int) $this->plugin->cfg->get("Member Limit");
+				$memberLimit = intval($this->plugin->cfg->get("Member Limit"));
 
 				if ($name !== strtolower($island->getCreator())) {
 

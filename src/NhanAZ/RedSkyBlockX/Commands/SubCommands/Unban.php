@@ -21,7 +21,7 @@ class Unban extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		$name = $args["name"];
 		$island = $this->plugin->islandManager->getIslandAtPlayer($sender);
 		if (!($island instanceof Island)) {
@@ -36,8 +36,7 @@ class Unban extends SBSubCommand {
 				return;
 			}
 		}
-
-		$creator = $island->getCreator();
+		if ($island === null) return;
 		$members = $island->getMembers();
 
 		if (array_key_exists(strtolower($sender->getName()), $members) || $sender->getName() === $island->getCreator() || $sender->hasPermission("redskyblockx.admin")) {

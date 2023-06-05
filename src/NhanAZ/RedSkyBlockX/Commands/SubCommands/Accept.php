@@ -20,14 +20,14 @@ class Accept extends SBSubCommand {
 	}
 
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-
+		if (!$sender instanceof Player) return;
 		$islandName = $args["island"];
 		$island = $this->plugin->islandManager->getIslandByName($islandName);
 		if ($island instanceof Island) {
 
 			$members = $island->getMembers();
 			$memberCount = count($members);
-			$memberLimit = (int) $this->plugin->cfg->get("Member Limit");
+			$memberLimit = intval($this->plugin->cfg->get("Member Limit"));
 			if ($memberLimit > $memberCount) {
 
 				if ($island->acceptInvite($sender)) {

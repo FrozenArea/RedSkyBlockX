@@ -9,11 +9,12 @@ use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use NhanAZ\RedSkyBlockX\Utils\ZoneManager;
+use pocketmine\item\Item;
 
 class ZoneTools extends SBSubCommand {
 
-	private $zoneShovel;
-	private $spawnFeather;
+	private Item $zoneShovel;
+	private Item $spawnFeather;
 
 	public function prepare(): void {
 
