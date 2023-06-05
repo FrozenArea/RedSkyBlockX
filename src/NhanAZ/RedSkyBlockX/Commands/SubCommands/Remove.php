@@ -6,13 +6,15 @@ namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\args\TextArgument;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
+use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
-use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
+use function str_replace;
+use function strtolower;
 
 class Remove extends SBSubCommand {
 
-	public function prepare(): void {
+	public function prepare() : void {
 
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
@@ -22,7 +24,7 @@ class Remove extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 		if (!$sender instanceof Player) return;
 		if (isset($args["name"])) {
 			if ($this->checkIsland($sender)) {

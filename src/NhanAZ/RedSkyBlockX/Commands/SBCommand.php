@@ -7,7 +7,6 @@ namespace NhanAZ\RedSkyBlockX\Commands;
 use CortexPE\Commando\args\RawStringArgument;
 
 use CortexPE\Commando\BaseCommand;
-use pocketmine\command\CommandSender;
 use NhanAZ\RedSkyBlockX\Commands\SubCommands\Accept;
 use NhanAZ\RedSkyBlockX\Commands\SubCommands\AddPermission;
 use NhanAZ\RedSkyBlockX\Commands\SubCommands\Ban;
@@ -49,14 +48,15 @@ use NhanAZ\RedSkyBlockX\Commands\SubCommands\Unlock;
 use NhanAZ\RedSkyBlockX\Commands\SubCommands\UpdateZone;
 use NhanAZ\RedSkyBlockX\Commands\SubCommands\Value;
 use NhanAZ\RedSkyBlockX\Commands\SubCommands\Visit;
+use NhanAZ\RedSkyBlockX\Commands\SubCommands\ZoneTools;
 //todo: get rid of calls to getSafeSpawn (maybe),
 //todo (cont'd): garbage collector to remove island objects not being used from memory, nether islands (maybe),
 //todo (cont'd): island quests, island leveling system, island permissions for members based on island rank, minions,
 //todo (cont'd): skyblock based custom enchants, multiple custom islands, skyblock GUIs, add scoreboard support
 //todo (cont'd): add more configurable options in config, obsidian scooping?, island banks (variable economy)
 //todo (cont'd): change island identifiers to UUID (maintain backwards compatibility)
-use NhanAZ\RedSkyBlockX\Commands\SubCommands\ZoneTools;
 use NhanAZ\RedSkyBlockX\SkyBlock;
+use pocketmine\command\CommandSender;
 
 class SBCommand extends BaseCommand {
 
@@ -68,7 +68,7 @@ class SBCommand extends BaseCommand {
 		parent::__construct($plugin, $name, $description, $aliases);
 	}
 
-	protected function prepare(): void {
+	protected function prepare() : void {
 		$this->setPermission("redskyblockx.command");
 
 		$this->registerArgument(0, new RawStringArgument("help", true));
@@ -349,7 +349,7 @@ class SBCommand extends BaseCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasused, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasused, array $args) : void {
 
 		if (isset($args["help"])) {
 
@@ -362,7 +362,7 @@ class SBCommand extends BaseCommand {
 		}
 	}
 
-	public function getPermission(): string {
+	public function getPermission() : string {
 		return "redskyblockx.command";
 	}
 }

@@ -7,13 +7,16 @@ namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 use CortexPE\Commando\args\BooleanArgument;
 use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
-use pocketmine\command\CommandSender;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
+use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
+use function array_key_exists;
+use function boolval;
+use function str_replace;
 
 class Setting extends SBSubCommand {
 
-	public function prepare(): void {
+	public function prepare() : void {
 
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
@@ -24,7 +27,7 @@ class Setting extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 		if (!$sender instanceof Player) return;
 		if ($this->checkIsland($sender)) {
 

@@ -7,12 +7,22 @@ namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 use CortexPE\Commando\args\IntegerArgument;
 use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
-use pocketmine\command\CommandSender;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
+use pocketmine\command\CommandSender;
+use function array_slice;
+use function array_unique;
+use function ceil;
+use function count;
+use function explode;
+use function implode;
+use function in_array;
+use function intval;
+use function str_replace;
+use function strtolower;
 
 class Help extends SBSubCommand {
 
-	public function prepare(): void {
+	public function prepare() : void {
 
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
@@ -23,7 +33,7 @@ class Help extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 
 		$islandCommand = $this->parent;
 		$subCommands = $islandCommand->getSubCommands();

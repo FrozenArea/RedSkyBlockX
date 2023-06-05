@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\args\RawStringArgument;
+use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\world\generator\GeneratorManager;
 use pocketmine\world\WorldCreationOptions;
-use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
+use function str_replace;
 
 class CreateWorld extends SBSubCommand {
 
@@ -19,8 +20,8 @@ class CreateWorld extends SBSubCommand {
   }
 
   /**
-	 * @param array<string> $args
-	 */
+   * @param array<string> $args
+   */
   public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 
 	if (isset($args["name"])) {

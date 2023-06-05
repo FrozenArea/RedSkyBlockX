@@ -7,6 +7,8 @@ namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use NhanAZ\libBedrock\StringToBlock;
 use NhanAZ\libBedrock\StringToItem;
+use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
+use NhanAZ\RedSkyBlockX\Utils\ZoneManager;
 use pocketmine\block\tile\Chest;
 use pocketmine\block\tile\Tile;
 use pocketmine\block\VanillaBlocks;
@@ -15,14 +17,22 @@ use pocketmine\math\Vector3;
 use pocketmine\player\Player;
 use pocketmine\world\format\Chunk;
 use pocketmine\world\Position;
-use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
-use NhanAZ\RedSkyBlockX\Utils\ZoneManager;
+use function count;
+use function end;
+use function explode;
+use function file_put_contents;
+use function floatval;
+use function floor;
+use function intval;
+use function json_encode;
+use function strval;
+use function Time;
 
 class Create extends SBSubCommand {
 
 	public static $instance;
 
-	public function prepare(): void {
+	public function prepare() : void {
 
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
@@ -32,7 +42,7 @@ class Create extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 		if (!$sender instanceof Player) return;
 		if ($this->checkMasterWorld()) {
 
@@ -131,7 +141,7 @@ class Create extends SBSubCommand {
 
 							if ($chunk === end($adjacentChunks)) {
 								if ($masterWorld === null) return;
-								$masterWorld->orderChunkPopulation($chunk[0], $chunk[1], null)->onCompletion(function (Chunk $chunk) use ($lastX, $lastZ, $islandSpawnY, $masterWorld, $plugin, $sender, $islandData, $zone, $zoneSize, $initialSpawnPoint, $startingItems): void {
+								$masterWorld->orderChunkPopulation($chunk[0], $chunk[1], null)->onCompletion(function (Chunk $chunk) use ($lastX, $lastZ, $islandSpawnY, $masterWorld, $plugin, $sender, $islandData, $zone, $zoneSize, $initialSpawnPoint, $startingItems) : void {
 
 									$counter = 0;
 
@@ -209,7 +219,7 @@ class Create extends SBSubCommand {
 		}
 	}
 
-	public static function getInstance(): self {
+	public static function getInstance() : self {
 
 		return self::$instance;
 	}

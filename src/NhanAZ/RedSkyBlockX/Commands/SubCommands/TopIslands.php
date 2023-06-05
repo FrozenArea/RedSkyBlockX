@@ -6,12 +6,17 @@ namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\args\IntegerArgument;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
-use pocketmine\command\CommandSender;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
+use pocketmine\command\CommandSender;
+use function array_keys;
+use function array_slice;
+use function ceil;
+use function count;
+use function str_replace;
 
 class TopIslands extends SBSubCommand {
 
-	public function prepare(): void {
+	public function prepare() : void {
 
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
@@ -21,7 +26,7 @@ class TopIslands extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 
 		$topIslands = $this->plugin->islandManager->getTopIslands();
 		$islandNames = array_keys($topIslands);

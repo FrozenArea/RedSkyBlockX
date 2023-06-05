@@ -6,14 +6,19 @@ namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\args\TextArgument;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
-use pocketmine\command\CommandSender;
-use pocketmine\player\Player;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use NhanAZ\RedSkyBlockX\Island;
+use pocketmine\command\CommandSender;
+use pocketmine\player\Player;
+use function array_key_exists;
+use function array_search;
+use function str_replace;
+use function strtolower;
+use function ucfirst;
 
 class Demote extends SBSubCommand {
 
-	public function prepare(): void {
+	public function prepare() : void {
 
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
@@ -23,7 +28,7 @@ class Demote extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 		if (!$sender instanceof Player) return;
 		if ($this->checkIsland($sender)) {
 

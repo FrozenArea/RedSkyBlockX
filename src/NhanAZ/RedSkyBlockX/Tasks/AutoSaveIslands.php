@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace NhanAZ\RedSkyBlockX\Tasks;
 
-use pocketmine\scheduler\Task;
 use NhanAZ\RedSkyBlockX\SkyBlock;
+use pocketmine\scheduler\Task;
 
 class AutoSaveIslands extends Task {
 
@@ -16,7 +16,7 @@ class AutoSaveIslands extends Task {
 		$this->plugin = $plugin;
 	}
 
-	public function onRun(): void {
+	public function onRun() : void {
 
 		$this->plugin->islandManager->saveAllIslands();
 	}

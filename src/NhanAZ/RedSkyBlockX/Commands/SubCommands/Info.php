@@ -5,14 +5,21 @@ declare(strict_types=1);
 namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
-use pocketmine\command\CommandSender;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use NhanAZ\RedSkyBlockX\Island;
+use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
+use function array_keys;
+use function gmdate;
+use function implode;
+use function in_array;
+use function str_replace;
+use function strtolower;
+use function Time;
 
 class Info extends SBSubCommand {
 
-	public function prepare(): void {
+	public function prepare() : void {
 
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
@@ -21,7 +28,7 @@ class Info extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 		if (!$sender instanceof Player) return;
 		$island = $this->plugin->islandManager->getIslandAtPlayer($sender);
 		if ($island instanceof Island) {
@@ -74,7 +81,7 @@ class Info extends SBSubCommand {
 		}
 	}
 
-	public function getIslandInfoFUll(Island $island): string {
+	public function getIslandInfoFUll(Island $island) : string {
 
 		$islandName = $island->getName();
 		$islandMembers = implode(", ", array_keys($island->getMembers()));

@@ -6,15 +6,21 @@ namespace NhanAZ\RedSkyBlockX;
 
 use CortexPE\Commando\PacketHooker;
 use muqsit\invmenu\InvMenuHandler;
-use pocketmine\plugin\PluginBase;
-use pocketmine\utils\Config;
-use pocketmine\world\World;
 use NhanAZ\RedSkyBlockX\Commands\SBCommand;
 use NhanAZ\RedSkyBlockX\Tasks\AutoSaveIslands;
 use NhanAZ\RedSkyBlockX\Utils\ConfigManager;
 use NhanAZ\RedSkyBlockX\Utils\IslandManager;
 use NhanAZ\RedSkyBlockX\Utils\MessageConstructor;
 use NhanAZ\RedSkyBlockX\Utils\ZoneManager;
+use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Config;
+use pocketmine\world\World;
+use function file_exists;
+use function mkdir;
+use function round;
+use function str_replace;
+use function strtolower;
+use function strval;
 
 class SkyBlock extends PluginBase {
 
@@ -36,7 +42,7 @@ class SkyBlock extends PluginBase {
 
 	public IslandManager $islandManager;
 
-	public function onEnable(): void {
+	public function onEnable() : void {
 		if (!file_exists($this->getDataFolder() . "../RedSkyBlockX")) {
 
 			mkdir($this->getDataFolder() . "../RedSkyBlockX");
@@ -144,7 +150,7 @@ class SkyBlock extends PluginBase {
 		return self::$instance;
 	}
 
-	protected function onDisable(): void {
+	protected function onDisable() : void {
 		IslandManager::getInstance()->saveAllIslands();
 	}
 }

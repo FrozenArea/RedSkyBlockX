@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace NhanAZ\RedSkyBlockX\Commands;
 
 use CortexPE\Commando\BaseSubCommand;
-use pocketmine\player\Player;
 use NhanAZ\RedSkyBlockX\SkyBlock;
 use NhanAZ\RedSkyBlockX\Utils\MessageConstructor;
 use NhanAZ\RedSkyBlockX\Utils\ZoneManager;
+use pocketmine\player\Player;
+use function in_array;
+use function scandir;
 
 abstract class SBSubCommand extends BaseSubCommand {
 
@@ -25,12 +27,12 @@ abstract class SBSubCommand extends BaseSubCommand {
 
 	//include get SB functions here + any other useful functions to be used across multiple commands
 
-	public function getMShop(): MessageConstructor {
+	public function getMShop() : MessageConstructor {
 
 		return MessageConstructor::getInstance();
 	}
 
-	public function checkZone(): bool {
+	public function checkZone() : bool {
 
 		if (ZoneManager::getZone() !== []) {
 
@@ -41,7 +43,7 @@ abstract class SBSubCommand extends BaseSubCommand {
 		}
 	}
 
-	public function checkMasterWorld(): bool {
+	public function checkMasterWorld() : bool {
 
 		if ($this->plugin->skyblock->get("Master World") !== false) {
 
@@ -52,7 +54,7 @@ abstract class SBSubCommand extends BaseSubCommand {
 		}
 	}
 
-	public function checkIsland(Player $player): bool {
+	public function checkIsland(Player $player) : bool {
 
 		$playerFiles = scandir($this->plugin->getDataFolder() . "../RedSkyBlockX/Players");
 		$playerName = $player->getName();

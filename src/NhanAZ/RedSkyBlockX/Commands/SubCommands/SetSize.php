@@ -6,14 +6,17 @@ namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\args\IntegerArgument;
 use CortexPE\Commando\args\TextArgument;
-use pocketmine\command\CommandSender;
-use pocketmine\player\Player;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use NhanAZ\RedSkyBlockX\Island;
+use pocketmine\command\CommandSender;
+use pocketmine\player\Player;
+use function intval;
+use function str_replace;
+use function strval;
 
 class SetSize extends SBSubCommand {
 
-	public function prepare(): void {
+	public function prepare() : void {
 
 		$this->setPermission("redskyblockx.admin");
 		$this->registerArgument(0, new IntegerArgument("size", false));
@@ -23,7 +26,7 @@ class SetSize extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 
 		$newSize = $args["size"];
 		$maxSize = intval($this->plugin->cfg->get("Island Max Size"));

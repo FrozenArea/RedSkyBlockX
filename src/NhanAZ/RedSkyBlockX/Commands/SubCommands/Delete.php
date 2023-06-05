@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\args\TextArgument;
-use pocketmine\command\CommandSender;
-use pocketmine\player\Player;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use NhanAZ\RedSkyBlockX\Island;
+use pocketmine\command\CommandSender;
+use pocketmine\player\Player;
+use function str_replace;
 
 class Delete extends SBSubCommand {
 
-	public function prepare(): void {
+	public function prepare() : void {
 
 		$this->setPermission("redskyblockx.admin");
 		$this->registerArgument(0, new TextArgument("island", false));
@@ -21,7 +22,7 @@ class Delete extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 
 		$islandName = $args["island"];
 		$island = $this->plugin->islandManager->getIslandByName($islandName);

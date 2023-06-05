@@ -4,8 +4,22 @@ declare(strict_types=1);
 
 namespace NhanAZ\RedSkyBlockX;
 
-use pocketmine\player\Player;
 use NhanAZ\RedSkyBlockX\Utils\IslandManager;
+use pocketmine\player\Player;
+use function abs;
+use function array_diff;
+use function array_key_exists;
+use function array_keys;
+use function array_push;
+use function array_search;
+use function ceil;
+use function count;
+use function exp;
+use function floor;
+use function in_array;
+use function log;
+use function round;
+use function strtolower;
 
 class Island {
 
@@ -107,42 +121,42 @@ class Island {
 		}
 	}
 
-	public function getCreator(): string {
+	public function getCreator() : string {
 
 		return $this->creator;
 	}
 
-	public function getName(): string {
+	public function getName() : string {
 
 		return $this->name;
 	}
 
-	public function setName(string $name): void {
+	public function setName(string $name) : void {
 
 		$this->name = $name;
 	}
 
-	public function getSize(): int {
+	public function getSize() : int {
 
 		return $this->size;
 	}
 
-	public function setSize(int $size): void {
+	public function setSize(int $size) : void {
 
 		$this->size = $size;
 	}
 
-	public function getValue(): int {
+	public function getValue() : int {
 
 		return $this->value;
 	}
 
-	public function addValue(int $value): void {
+	public function addValue(int $value) : void {
 
 		$this->value += $value;
 	}
 
-	public function removeValue(int $value): void {
+	public function removeValue(int $value) : void {
 
 		if ($this->value - $value < 0) {
 
@@ -153,33 +167,33 @@ class Island {
 		}
 	}
 
-	public function getInitialSpawnPoint(): array {
+	public function getInitialSpawnPoint() : array {
 
 		return $this->initialSpawnPoint;
 	}
 
-	public function getIslandCenter(): array { //for readability
+	public function getIslandCenter() : array { //for readability
 
 		$center = [$this->initialSpawnPoint[0], $this->initialSpawnPoint[2]];
 		return $center;
 	}
 
-	public function getSpawnPoint(): array {
+	public function getSpawnPoint() : array {
 
 		return $this->spawnPoint;
 	}
 
-	public function setSpawnPoint(array $spawnPoint): void {
+	public function setSpawnPoint(array $spawnPoint) : void {
 
 		$this->spawnPoint = $spawnPoint;
 	}
 
-	public function getMembers(): array {
+	public function getMembers() : array {
 
 		return $this->members;
 	}
 
-	public function addMember(string $name): bool {
+	public function addMember(string $name) : bool {
 
 		if (!array_key_exists(strtolower($name), $this->members) && strtolower($name) !== strtolower($this->creator)) {
 
@@ -191,7 +205,7 @@ class Island {
 		}
 	}
 
-	public function removeMember(string $name): bool {
+	public function removeMember(string $name) : bool {
 
 		if (array_key_exists(strtolower($name), $this->members)) {
 
@@ -203,17 +217,17 @@ class Island {
 		}
 	}
 
-	public function setRank(string $name, string $rank): void {
+	public function setRank(string $name, string $rank) : void {
 
 		$this->members[$name] = $rank;
 	}
 
-	public function getBanned(): array {
+	public function getBanned() : array {
 
 		return $this->banned;
 	}
 
-	public function ban(string $name): bool {
+	public function ban(string $name) : bool {
 
 		if (!in_array(strtolower($name), $this->banned, true)) {
 
@@ -225,7 +239,7 @@ class Island {
 		}
 	}
 
-	public function unban(string $name): bool {
+	public function unban(string $name) : bool {
 
 		if (in_array(strtolower($name), $this->banned, true)) {
 
@@ -238,17 +252,17 @@ class Island {
 		}
 	}
 
-	public function getResetCooldown(): int {
+	public function getResetCooldown() : int {
 
 		return $this->resetCooldown;
 	}
 
-	public function getLockStatus(): bool {
+	public function getLockStatus() : bool {
 
 		return $this->lockStatus;
 	}
 
-	public function lock(): bool {
+	public function lock() : bool {
 
 		if ($this->lockStatus === false) {
 
@@ -260,7 +274,7 @@ class Island {
 		}
 	}
 
-	public function unlock(): bool {
+	public function unlock() : bool {
 
 		if ($this->lockStatus === true) {
 
@@ -272,7 +286,7 @@ class Island {
 		}
 	}
 
-	public function invite(string $name): bool {
+	public function invite(string $name) : bool {
 
 		$name = strtolower($name);
 		if (!in_array($name, $this->invited, true)) {
@@ -285,7 +299,7 @@ class Island {
 		}
 	}
 
-	public function acceptInvite(Player $player): bool {
+	public function acceptInvite(Player $player) : bool {
 
 		$playerName = strtolower($player->getName());
 		if (in_array($playerName, $this->invited, true)) {
@@ -300,47 +314,47 @@ class Island {
 		}
 	}
 
-	public function getSettings(): array {
+	public function getSettings() : array {
 
 		return $this->settings;
 	}
 
-	public function getDefaultSettings(): array {
+	public function getDefaultSettings() : array {
 
 		return $this->defaultSettings;
 	}
 
-	public function changeSetting(string $setting, bool $bias): void {
+	public function changeSetting(string $setting, bool $bias) : void {
 
 		$this->settings[$setting] = $bias;
 	}
 
-	public function resetSettings(): void {
+	public function resetSettings() : void {
 
 		$this->settings = $this->defaultSettings;
 	}
 
-	public function getStats(): array {
+	public function getStats() : array {
 
 		return $this->stats;
 	}
 
-	public function addToStat(string $stat, int $amount): void {
+	public function addToStat(string $stat, int $amount) : void {
 
 		$this->stats[$stat] += $amount;
 	}
 
-	public function removeFromStat(string $stat, int $amount): void {
+	public function removeFromStat(string $stat, int $amount) : void {
 
 		$this->stats[$stat] -= $amount;
 	}
 
-	public function getChatters(): array {
+	public function getChatters() : array {
 
 		return $this->islandChat;
 	}
 
-	public function addChatter(string $playerName): void {
+	public function addChatter(string $playerName) : void {
 
 		$playerName = strtolower($playerName);
 		if (!in_array($playerName, $this->islandChat, true)) {
@@ -349,7 +363,7 @@ class Island {
 		}
 	}
 
-	public function removeChatter(string $playerName): void {
+	public function removeChatter(string $playerName) : void {
 
 		$playerName = strtolower($playerName);
 		if (in_array($playerName, $this->islandChat, true)) {
@@ -359,12 +373,12 @@ class Island {
 		}
 	}
 
-	public function getPermissions(): array {
+	public function getPermissions() : array {
 
 		return $this->permissions;
 	}
 
-	public function removePermission(string $rank, string $permission): bool {
+	public function removePermission(string $rank, string $permission) : bool {
 
 		if (in_array($permission, self::MEMBER_PERMISSIONS, true)) {
 
@@ -389,7 +403,7 @@ class Island {
 		}
 	}
 
-	public function addPermission(string $rank, string $permission): bool {
+	public function addPermission(string $rank, string $permission) : bool {
 
 		if (in_array($permission, self::MEMBER_PERMISSIONS, true)) {
 
@@ -413,17 +427,17 @@ class Island {
 		}
 	}
 
-	public function getXP(): int {
+	public function getXP() : int {
 
 		return $this->experience;
 	}
 
-	public function addXP(int $amount): void {
+	public function addXP(int $amount) : void {
 
 		$this->experience += $amount;
 	}
 
-	public function subtractXP(int $amount): void {
+	public function subtractXP(int $amount) : void {
 
 		if ($this->experience - $amount < 0) {
 
@@ -434,7 +448,7 @@ class Island {
 		}
 	}
 
-	public function setXP(int $amount): void {
+	public function setXP(int $amount) : void {
 
 		if ($amount < 0) {
 
@@ -445,7 +459,7 @@ class Island {
 		}
 	}
 
-	public function calculateLevel(int $experience): int {
+	public function calculateLevel(int $experience) : int {
 		//formula for getting level from xp = x * ysqrt(xp)
 		//formula for getting xp required for a level = (level/x)^y
 
@@ -461,7 +475,7 @@ class Island {
 		return (int) $currentLevel;
 	}
 
-	public function getXPNeeded(int $experience): int {
+	public function getXPNeeded(int $experience) : int {
 
 		$xpGap = SkyBlock::getInstance()->cfg->get("XP Gap");
 		if ($xpGap <= 0) $xpGap = 0.01;

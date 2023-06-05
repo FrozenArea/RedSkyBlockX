@@ -4,11 +4,29 @@ declare(strict_types=1);
 
 namespace NhanAZ\RedSkyBlockX\Utils;
 
+use NhanAZ\RedSkyBlockX\Island;
+use NhanAZ\RedSkyBlockX\SkyBlock;
 use pocketmine\block\Block;
 use pocketmine\player\Player;
 use pocketmine\world\World;
-use NhanAZ\RedSkyBlockX\Island;
-use NhanAZ\RedSkyBlockX\SkyBlock;
+use function array_key_exists;
+use function array_keys;
+use function array_map;
+use function array_push;
+use function array_search;
+use function arsort;
+use function file_exists;
+use function file_get_contents;
+use function file_put_contents;
+use function in_array;
+use function is_bool;
+use function is_file;
+use function json_decode;
+use function json_encode;
+use function scandir;
+use function strtolower;
+use function substr;
+use function unlink;
 
 class IslandManager {
 
@@ -24,7 +42,7 @@ class IslandManager {
 		self::$instance = $this;
 	}
 
-	public function getIslandData(string $playerName): ?array {
+	public function getIslandData(string $playerName) : ?array {
 
 		$playerNameLower = strtolower($playerName);
 
@@ -38,7 +56,7 @@ class IslandManager {
 		}
 	}
 
-	public function constructIsland(array $islandData, string $playerName): Island {
+	public function constructIsland(array $islandData, string $playerName) : Island {
 
 		$islandData = $this->verifyIslandDataIntegrity($islandData, $playerName);
 		$island = new Island($islandData);
@@ -48,7 +66,7 @@ class IslandManager {
 		return $island;
 	}
 
-	public function verifyIslandDataIntegrity(array $islandData, string $playerName): array {
+	public function verifyIslandDataIntegrity(array $islandData, string $playerName) : array {
 
 		$requiredKeys = [
 			"creator",
@@ -79,7 +97,7 @@ class IslandManager {
 		return $islandData;
 	}
 
-	public function constructAllIslands(): void {
+	public function constructAllIslands() : void {
 
 		$plugin = $this->plugin;
 		$playerFiles = scandir($plugin->getDataFolder() . "../RedSkyBlockX/Players");
@@ -95,7 +113,7 @@ class IslandManager {
 		}
 	}
 
-	public function deconstructIsland(Island $island): array {
+	public function deconstructIsland(Island $island) : array {
 
 		$islandData = [
 			"creator" => $island->getCreator(),
@@ -117,7 +135,7 @@ class IslandManager {
 		return $islandData;
 	}
 
-	public function saveIsland(Island $island): void {
+	public function saveIsland(Island $island) : void {
 
 		$islandData = $this->deconstructIsland($island);
 		if (file_exists($this->plugin->getDataFolder() . "../RedSkyBlockX/Players/" . $islandData["creator"] . ".json")) {
@@ -126,7 +144,7 @@ class IslandManager {
 		}
 	}
 
-	public function saveAllIslands(): void {
+	public function saveAllIslands() : void {
 
 		foreach ($this->islands as $island) {
 
@@ -134,12 +152,12 @@ class IslandManager {
 		}
 	}
 
-	public function getIslands(): array {
+	public function getIslands() : array {
 
 		return $this->islands;
 	}
 
-	public function getIsland(Player $player): ?Island {
+	public function getIsland(Player $player) : ?Island {
 
 		$playerName = $player->getName();
 
@@ -152,7 +170,7 @@ class IslandManager {
 		}
 	}
 
-	public function getIslandByCreatorName(string $name): ?Island {
+	public function getIslandByCreatorName(string $name) : ?Island {
 
 		$island = null;
 		foreach ($this->islands as $owner => $isle) {
@@ -165,7 +183,7 @@ class IslandManager {
 		return $island;
 	}
 
-	public function getIslandByName(string $islandName): ?Island {
+	public function getIslandByName(string $islandName) : ?Island {
 
 		$islandName = strtolower($islandName);
 		$islands = $this->islands;
@@ -181,24 +199,24 @@ class IslandManager {
 		return null;
 	}
 
-	public function addIsland(Island $island): void {
+	public function addIsland(Island $island) : void {
 
 		$this->islands[$island->getCreator()] = $island;
 	}
 
-	public function removeIsland(Island $island): void {
+	public function removeIsland(Island $island) : void {
 
 		unset($this->islands[$island->getCreator()]);
 		$this->saveIsland($island);
 		unset($island);
 	}
 
-	public function removeAllIslands(): void {
+	public function removeAllIslands() : void {
 
 		$this->islands = [];
 	}
 
-	public function deleteIsland(Island $island): void {
+	public function deleteIsland(Island $island) : void {
 
 		unset($this->islands[$island->getCreator()]);
 
@@ -213,7 +231,7 @@ class IslandManager {
 		}
 	}
 
-	public function getMasterWorld(): ?world {
+	public function getMasterWorld() : ?world {
 
 		$masterWorldName = $this->plugin->skyblock->get("Master World");
 		if (is_bool($masterWorldName)) return null;
@@ -239,7 +257,7 @@ class IslandManager {
 		}
 	}
 
-	public function isOnIsland(Player $player, Island $island): bool {
+	public function isOnIsland(Player $player, Island $island) : bool {
 
 		$playerPos = $player->getPosition();
 		$islandCenter = $island->getIslandCenter();
@@ -265,7 +283,7 @@ class IslandManager {
 		}
 	}
 
-	public function getIslandAtPlayer(Player $player): ?Island {
+	public function getIslandAtPlayer(Player $player) : ?Island {
 
 		$foundIsland = null;
 		$playerWorld = $player->getWorld();
@@ -293,7 +311,7 @@ class IslandManager {
 		return $foundIsland;
 	}
 
-	public function getIslandAtBlock(Block $block): ?Island {
+	public function getIslandAtBlock(Block $block) : ?Island {
 
 		$foundIsland = null;
 		$blockWorld = $block->getPosition()->world;
@@ -321,7 +339,7 @@ class IslandManager {
 		return $foundIsland;
 	}
 
-	public function getPlayersAtIsland(Island $island): array {
+	public function getPlayersAtIsland(Island $island) : array {
 
 		$onlinePlayers = $this->plugin->getServer()->getOnlinePlayers();
 		$playersOnIsland = [];
@@ -350,7 +368,7 @@ class IslandManager {
 		return $playersOnIsland;
 	}
 
-	public function getIslandRank(Island $island): ?int {
+	public function getIslandRank(Island $island) : ?int {
 
 		$valueArray = [];
 
@@ -371,7 +389,7 @@ class IslandManager {
 		}
 	}
 
-	public function getTopIslands(): array {
+	public function getTopIslands() : array {
 
 		$topIslands = [];
 
@@ -386,7 +404,7 @@ class IslandManager {
 		return $topIslands;
 	}
 
-	public function checkRepeatIslandName(string $name): ?bool {
+	public function checkRepeatIslandName(string $name) : ?bool {
 
 		$name = strtolower($name);
 		$bias = null;
@@ -405,7 +423,7 @@ class IslandManager {
 		return $bias;
 	}
 
-	public function getIslandsEmployedAt(string $playerName): array {
+	public function getIslandsEmployedAt(string $playerName) : array {
 
 		$employedAt = [];
 		foreach ($this->islands as $owner => $island) {
@@ -418,7 +436,7 @@ class IslandManager {
 		return $employedAt;
 	}
 
-	public function searchIslandChannels(string $playerName): ?Island {
+	public function searchIslandChannels(string $playerName) : ?Island {
 
 		$playerName = strtolower($playerName);
 		$possibleChannels = $this->getIslandsEmployedAt($playerName);
@@ -433,7 +451,7 @@ class IslandManager {
 		return $tuneToChannel;
 	}
 
-	public static function getInstance(): self {
+	public static function getInstance() : self {
 
 		if (self::$instance === null) {
 

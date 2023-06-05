@@ -4,8 +4,17 @@ declare(strict_types=1);
 
 namespace NhanAZ\RedSkyBlockX\Utils;
 
-use pocketmine\utils\TextFormat;
 use NhanAZ\RedSkyBlockX\SkyBlock;
+use pocketmine\utils\TextFormat;
+use function array_diff;
+use function array_keys;
+use function count;
+use function file_get_contents;
+use function file_put_contents;
+use function str_replace;
+use function stream_get_contents;
+use function substr;
+use function yaml_parse;
 
 class MessageConstructor {
 
@@ -21,12 +30,12 @@ class MessageConstructor {
 		$this->updateMessages();
 	}
 
-	public static function getInstance(): MessageConstructor {
+	public static function getInstance() : MessageConstructor {
 
 		return self::$instance;
 	}
 
-	public function construct(string $identifier): string {
+	public function construct(string $identifier) : string {
 
 		$plugin = $this->plugin;
 		$message = $plugin->messages->get($identifier);
@@ -58,7 +67,7 @@ class MessageConstructor {
 		return $message;
 	}
 
-	public function updateMessages(): void {
+	public function updateMessages() : void {
 
 		$realString = (string) file_get_contents($this->plugin->getDataFolder() . "../RedSkyBlockX/messages.yml");
 		$realArray = yaml_parse($realString);

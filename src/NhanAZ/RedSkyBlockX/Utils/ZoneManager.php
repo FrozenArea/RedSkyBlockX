@@ -4,13 +4,21 @@ declare(strict_types=1);
 
 namespace NhanAZ\RedSkyBlockX\Utils;
 
+use NhanAZ\RedSkyBlockX\SkyBlock;
 use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\world\Position;
 use pocketmine\world\World;
-use NhanAZ\RedSkyBlockX\SkyBlock;
+use function array_push;
+use function array_search;
+use function is_bool;
+use function max;
+use function min;
+use function round;
+use function str_replace;
+use function strtolower;
 
 class ZoneManager {
 
@@ -66,7 +74,7 @@ class ZoneManager {
 		self::$spawnFeather->setCustomName(TextFormat::OBFUSCATED . "s" . TextFormat::RESET . TextFormat::WHITE . " Spawn Feather " . TextFormat::RESET . TextFormat::OBFUSCATED . TextFormat::WHITE . "s");
 	}
 
-	public static function createZone(): void {
+	public static function createZone() : void {
 
 		$zone = self::$zone;
 
@@ -95,7 +103,7 @@ class ZoneManager {
 		self::updateZone();
 	}
 
-	public static function updateZone(): void {
+	public static function updateZone() : void {
 
 		self::clearZone();
 		$zone = self::$zone;
@@ -120,12 +128,12 @@ class ZoneManager {
 		self::saveZone();
 	}
 
-	public static function getZone(): array {
+	public static function getZone() : array {
 
 		return self::$zone;
 	}
 
-	public static function saveZone(): void {
+	public static function saveZone() : void {
 
 		$plugin = self::$plugin;
 		$zone = self::$zone;
@@ -145,12 +153,12 @@ class ZoneManager {
 		$plugin->skyblock->save();
 	}
 
-	public static function clearZone(): void {
+	public static function clearZone() : void {
 
 		self::$zone = [];
 	}
 
-	public static function clearZoneTools(Player $player): void {
+	public static function clearZoneTools(Player $player) : void {
 
 		$playerInv = $player->getInventory();
 		$invContents = $playerInv->getContents();
@@ -173,72 +181,72 @@ class ZoneManager {
 		return;
 	}
 
-	public static function getZoneKeeper(): ?Player {
+	public static function getZoneKeeper() : ?Player {
 
 		return self::$zoneKeeper;
 	}
 
-	public static function setZoneKeeper($zoneKeeper = null): void {
+	public static function setZoneKeeper($zoneKeeper = null) : void {
 
 		self::$zoneKeeper = $zoneKeeper;
 	}
 
-	public static function getZoneWorld(): ?World {
+	public static function getZoneWorld() : ?World {
 
 		return self::$zoneWorld;
 	}
 
-	public static function setZoneWorld($world = null): void {
+	public static function setZoneWorld($world = null) : void {
 
 		self::$zoneWorld = $world;
 	}
 
-	public static function getFirstPosition(): ?Position {
+	public static function getFirstPosition() : ?Position {
 
 		return self::$pos1;
 	}
 
-	public static function getSecondPosition(): ?Position {
+	public static function getSecondPosition() : ?Position {
 
 		return self::$pos2;
 	}
 
-	public static function setFirstPosition($position = null): void {
+	public static function setFirstPosition($position = null) : void {
 
 		self::$pos1 = $position;
 	}
 
-	public static function setSecondPosition($position = null): void {
+	public static function setSecondPosition($position = null) : void {
 
 		self::$pos2 = $position;
 	}
 
-	public static function getZoneShovel(): Item {
+	public static function getZoneShovel() : Item {
 
 		return self::$zoneShovel;
 	}
 
-	public static function getSpawnFeather(): Item {
+	public static function getSpawnFeather() : Item {
 
 		return self::$spawnFeather;
 	}
 
-	public static function getSpawnPosition(): ?Position {
+	public static function getSpawnPosition() : ?Position {
 
 		return self::$spawnPosition;
 	}
 
-	public static function setSpawnPosition($position = null): void {
+	public static function setSpawnPosition($position = null) : void {
 
 		self::$spawnPosition = $position;
 	}
 
-	public static function getZoneStartPosition(): array {
+	public static function getZoneStartPosition() : array {
 
 		return self::$zoneStartPosition;
 	}
 
-	public static function getZoneSize(): array {
+	public static function getZoneSize() : array {
 
 		return self::$zoneSize;
 	}

@@ -6,17 +6,16 @@ namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use muqsit\invmenu\InvMenu;
-use pocketmine\command\CommandSender;
-use pocketmine\item\VanillaItems;
-use pocketmine\utils\TextFormat;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use pocketmine\block\utils\MobHeadType;
 use pocketmine\block\VanillaBlocks;
+use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
+use pocketmine\utils\TextFormat;
 
 class Banned extends SBSubCommand {
 
-	public function prepare(): void {
+	public function prepare() : void {
 
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
@@ -25,7 +24,7 @@ class Banned extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 		if (!$sender instanceof Player) return;
 		if ($this->checkIsland($sender)) {
 			$island = $this->plugin->islandManager->getIsland($sender);

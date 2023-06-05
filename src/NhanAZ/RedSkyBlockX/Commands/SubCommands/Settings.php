@@ -7,19 +7,18 @@ namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 use CortexPE\Commando\constraint\InGameRequiredConstraint;
 use muqsit\invmenu\InvMenu;
 use muqsit\invmenu\transaction\DeterministicInvMenuTransaction;
+use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use pocketmine\block\utils\DyeColor;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\command\CommandSender;
-use pocketmine\item\ItemFactory;
-use pocketmine\item\StringToItemParser;
-use pocketmine\item\VanillaItems;
-use pocketmine\utils\TextFormat;
-use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
 use pocketmine\player\Player;
+use pocketmine\utils\TextFormat;
+use function explode;
+use function implode;
 
 class Settings extends SBSubCommand {
 
-	public function prepare(): void {
+	public function prepare() : void {
 
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
@@ -28,7 +27,7 @@ class Settings extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 		if (!$sender instanceof Player) return;
 		if ($this->checkIsland($sender)) {
 
@@ -66,7 +65,7 @@ class Settings extends SBSubCommand {
 				$slotTracker = $slot + 1;
 			}
 
-			$menu->setListener(InvMenu::readonly(function (DeterministicInvMenuTransaction $transaction) use ($islandSettings, $island, $sender, $aliasUsed, $args): void {
+			$menu->setListener(InvMenu::readonly(function (DeterministicInvMenuTransaction $transaction) use ($islandSettings, $island, $sender, $aliasUsed, $args) : void {
 
 				$itemClicked = $transaction->getItemClicked();
 				$itemName = $itemClicked->getCustomName();

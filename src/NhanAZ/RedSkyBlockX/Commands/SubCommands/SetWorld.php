@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\args\RawStringArgument;
-use pocketmine\command\CommandSender;
 use NhanAZ\RedSkyBlockX\Commands\SBSubCommand;
+use pocketmine\command\CommandSender;
+use function str_replace;
+use function strval;
 
 class SetWorld extends SBSubCommand {
 
-	protected function prepare(): void {
+	protected function prepare() : void {
 
 		$this->setPermission("redskyblockx.admin;redskyblockx.setworld");
 		$this->registerArgument(0, new RawStringArgument("name", false));
@@ -19,7 +21,7 @@ class SetWorld extends SBSubCommand {
 	/**
 	 * @param array<string> $args
 	 */
-	public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
 
 		if (isset($args["name"])) {
 
