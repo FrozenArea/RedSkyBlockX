@@ -15,7 +15,6 @@ use function strtolower;
 class Remove extends SBSubCommand {
 
 	public function prepare() : void {
-
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
 		$this->registerArgument(0, new TextArgument("name", false));

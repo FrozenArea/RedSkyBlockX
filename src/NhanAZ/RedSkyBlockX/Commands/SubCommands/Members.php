@@ -12,7 +12,6 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\command\CommandSender;
 use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
-
 class Members extends SBSubCommand {
 
 	public function prepare() : void {

@@ -12,7 +12,6 @@ use pocketmine\command\CommandSender;
 class UpdateZone extends SBSubCommand {
 
 	public function prepare() : void {
-
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.admin;redskyblockx.zone");
 	}
@@ -21,15 +20,11 @@ class UpdateZone extends SBSubCommand {
 	 * @param array<string> $args
 	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
-
 		if ($this->checkZone()) {
-
 			ZoneManager::updateZone();
-
 			$message = $this->getMShop()->construct("UPDATE_ZONE");
 			$sender->sendMessage($message);
 		} else {
-
 			$message = $this->getMShop()->construct("NO_ZONE");
 			$sender->sendMessage($message);
 		}

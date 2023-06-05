@@ -17,12 +17,10 @@ class Reload extends SBSubCommand {
 	 * @param array<string> $args
 	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
-
 		$plugin = $this->plugin;
 		$plugin->cfg->reload();
 		$plugin->skyblock->reload();
 		$plugin->messages->reload();
-
 		$message = $this->getMShop()->construct("RELOAD");
 		$sender->sendMessage($message);
 		return;

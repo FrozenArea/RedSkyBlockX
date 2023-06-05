@@ -20,7 +20,6 @@ use function Time;
 class Info extends SBSubCommand {
 
 	public function prepare() : void {
-
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
 	}
@@ -32,12 +31,9 @@ class Info extends SBSubCommand {
 		if (!$sender instanceof Player) return;
 		$island = $this->plugin->islandManager->getIslandAtPlayer($sender);
 		if ($island instanceof Island) {
-
 			if ($island->getCreator() === $sender->getName() || in_array(strtolower($sender->getName()), $island->getMembers(), true) || $sender->hasPermission("redskyblockx.admin")) {
-
 				$sender->sendMessage($this->getIslandInfoFull($island));
 			} else {
-
 				$islandName = $island->getName();
 				$islandCreator = $island->getCreator();
 				$islandValue = $island->getValue();
@@ -45,18 +41,14 @@ class Info extends SBSubCommand {
 				$islandStats = $island->getStats();
 				$islandStatsString = "";
 				foreach ($islandStats as $stat => $value) {
-
 					$statName = str_replace("_", " ", $stat);
 					$islandStatsString .= $statName . ": " . $value . " | ";
 				}
 				if ($island->getLockStatus()) {
-
 					$islandLockStatus = "Locked";
 				} else {
-
 					$islandLockStatus = "Unlocked";
 				}
-
 				$message = $this->getMShop()->construct("ISLAND_INFO_LIMITED");
 				$message = str_replace("{ISLAND_NAME}", $islandName, $message);
 				$message = str_replace("{ISLAND_CREATOR}", $islandCreator, $message);
@@ -67,22 +59,17 @@ class Info extends SBSubCommand {
 				$sender->sendMessage($message);
 			}
 		} else {
-
 			if ($this->checkIsland($sender)) {
-
 				$island = $this->plugin->islandManager->getIsland($sender);
 				if ($island === null) return;
 				$sender->sendMessage($this->getIslandInfoFull($island));
 			} else {
-
 				$message = $this->getMShop()->construct("NO_ISLAND");
 				$sender->sendMessage($message);
 			}
 		}
 	}
-
 	public function getIslandInfoFUll(Island $island) : string {
-
 		$islandName = $island->getName();
 		$islandMembers = implode(", ", array_keys($island->getMembers()));
 		if ($islandMembers === "") $islandMembers = "N/A";
@@ -92,12 +79,9 @@ class Info extends SBSubCommand {
 		$islandSettings = $island->getSettings();
 		$islandSettingsString = "";
 		foreach ($islandSettings as $setting => $status) {
-
 			if ($status) {
-
 				$isSettingActive = "on";
 			} else {
-
 				$isSettingActive = "off";
 			}
 			$settingName = str_replace("_", " ", $setting);
@@ -106,28 +90,22 @@ class Info extends SBSubCommand {
 		$islandStats = $island->getStats();
 		$islandStatsString = "";
 		foreach ($islandStats as $stat => $value) {
-
 			$statName = str_replace("_", " ", $stat);
 			$islandStatsString .= $statName . ": " . $value . " | ";
 		}
 		if ($island->getLockStatus()) {
-
 			$islandLockStatus = "Locked";
 		} else {
-
 			$islandLockStatus = "Unlocked";
 		}
 		if (Time() >= $island->getResetCooldown()) {
-
 			$islandTimeToReset = gmdate("H:i:s", Time() + 86400);
 		} else {
-
 			$islandTimeToReset = gmdate("H:i:s", $island->getResetCooldown() - Time());
 		}
 		$islandSize = $island->getSize();
 		$islandValue = $island->getValue();
 		$islandCreator = $island->getCreator();
-
 		$message = $this->getMShop()->construct("ISLAND_INFO_FULL");
 		$message = str_replace("{ISLAND_NAME}", $islandName, $message);
 		$message = str_replace("{ISLAND_CREATOR}", $islandCreator, $message);

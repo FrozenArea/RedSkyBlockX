@@ -19,11 +19,12 @@ use function yaml_parse;
 class MessageConstructor {
 
 	public static MessageConstructor $instance;
+
 	public $plugin;
+
 	protected $messages;
 
 	public function __construct(SkyBlock $plugin) {
-
 		$this->plugin = $plugin;
 		$this->messages = $plugin->messages;
 		self::$instance = $this;
@@ -31,16 +32,13 @@ class MessageConstructor {
 	}
 
 	public static function getInstance() : MessageConstructor {
-
 		return self::$instance;
 	}
 
 	public function construct(string $identifier) : string {
-
 		$plugin = $this->plugin;
 		$message = $plugin->messages->get($identifier);
 		if ($message == null) return "Message Not Set";
-
 		$message = str_replace("{NEW_LINE}", TextFormat::EOL, $message);
 		$message = str_replace("{BLACK}", TextFormat::BLACK, $message);
 		$message = str_replace("{DARK_BLUE}", TextFormat::DARK_BLUE, $message);
@@ -68,25 +66,18 @@ class MessageConstructor {
 	}
 
 	public function updateMessages() : void {
-
 		$realString = (string) file_get_contents($this->plugin->getDataFolder() . "../RedSkyBlockX/messages.yml");
 		$realArray = yaml_parse($realString);
 		$realKeys = array_keys($realArray);
 		if (substr($realString, -1) === "." || substr($realString, -1) === "-") $realString = substr($realString, 0, -3);
-
 		$reference = yaml_parse(stream_get_contents($this->plugin->getResource("messages.yml")));
 		$referenceKeys = array_keys($reference);
-
 		$compare = array_diff($referenceKeys, $realKeys);
-
 		if (count($compare) > 0) {
-
 			foreach ($compare as $key) {
-
 				$realString .= "\n" . $key . ": " . "\"" . $reference[$key] . "\"";
 			}
 			$realString .= "\n\n---";
-
 			file_put_contents($this->plugin->getDataFolder() . "../RedSkyBlockX/messages.yml", $realString);
 			$this->plugin->messages->reload();
 		}

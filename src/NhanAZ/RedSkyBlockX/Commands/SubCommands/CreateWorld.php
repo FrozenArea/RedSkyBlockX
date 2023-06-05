@@ -13,46 +13,37 @@ use function str_replace;
 
 class CreateWorld extends SBSubCommand {
 
-  protected function prepare() : void {
-
-	$this->setPermission("redskyblockx.admin;redskyblockx.createworld");
-	$this->registerArgument(0, new RawStringArgument("name", false));
-  }
-
-  /**
-   * @param array<string> $args
-   */
-  public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
-
-	if (isset($args["name"])) {
-
-	  $name = $args["name"];
-	  $plugin = $this->plugin;
-
-	  if (!$plugin->getServer()->getWorldManager()->loadWorld($name)) {
-		$generator = GeneratorManager::getInstance()->getGenerator("flat");
-		if ($generator === null) return;
-		$generator = $generator->getGeneratorClass();
-		$worldCreator = WorldCreationOptions::create()->setGeneratorOptions("3;minecraft:air");
-		$worldCreator->setGeneratorClass($generator);
-
-		$plugin->getServer()->getWorldManager()->generateWorld($name, $worldCreator);
-
-		$message = $this->getMShop()->construct("CW");
-		$message = str_replace("{WORLD}", $name, $message);
-		$sender->sendMessage($message);
-
-	  } else {
-
-		$message = $this->getMShop()->construct("CW_EXISTS");
-		$message = str_replace("{WORLD}", $name, $message);
-		$sender->sendMessage($message);
-		return;
-	  }
-	} else {
-
-	  $this->sendUsage();
-	  return;
+	protected function prepare() : void {
+		$this->setPermission("redskyblockx.admin;redskyblockx.createworld");
+		$this->registerArgument(0, new RawStringArgument("name", false));
 	}
-  }
+
+	/**
+	 * @param array<string> $args
+	 */
+	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
+		if (isset($args["name"])) {
+			$name = $args["name"];
+			$plugin = $this->plugin;
+			if (!$plugin->getServer()->getWorldManager()->loadWorld($name)) {
+				$generator = GeneratorManager::getInstance()->getGenerator("flat");
+				if ($generator === null) return;
+				$generator = $generator->getGeneratorClass();
+				$worldCreator = WorldCreationOptions::create()->setGeneratorOptions("3;minecraft:air");
+				$worldCreator->setGeneratorClass($generator);
+				$plugin->getServer()->getWorldManager()->generateWorld($name, $worldCreator);
+				$message = $this->getMShop()->construct("CW");
+				$message = str_replace("{WORLD}", $name, $message);
+				$sender->sendMessage($message);
+			} else {
+				$message = $this->getMShop()->construct("CW_EXISTS");
+				$message = str_replace("{WORLD}", $name, $message);
+				$sender->sendMessage($message);
+				return;
+			}
+		} else {
+			$this->sendUsage();
+			return;
+		}
+	}
 }

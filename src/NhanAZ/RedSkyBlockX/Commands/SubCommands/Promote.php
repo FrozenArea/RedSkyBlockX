@@ -20,7 +20,6 @@ use function ucfirst;
 class Promote extends SBSubCommand {
 
 	public function prepare() : void {
-
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
 		$this->registerArgument(0, new TextArgument("player", false));

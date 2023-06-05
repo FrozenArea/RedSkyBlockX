@@ -17,7 +17,6 @@ use function strval;
 class Rank extends SBSubCommand {
 
 	public function prepare() : void {
-
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
 		$this->registerArgument(0, new TextArgument("island", true));

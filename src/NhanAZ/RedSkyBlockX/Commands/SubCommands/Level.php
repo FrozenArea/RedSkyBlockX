@@ -15,7 +15,6 @@ use function strval;
 class Level extends SBSubCommand {
 
 	public function prepare() : void {
-
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
 	}
@@ -29,7 +28,6 @@ class Level extends SBSubCommand {
 		if ($island instanceof Island) {
 			$islandLevel = $island->calculateLevel($island->getXP());
 			$xpNeeded = $island->getXPNeeded($island->getXP()) + $island->getXP();
-
 			$message = $this->getMShop()->construct("ISLAND_LEVEL_OTHER");
 			$message = str_replace("{ISLAND_NAME}", $island->getName(), $message);
 			$message = str_replace("{LEVEL}", (string) $islandLevel, $message);
@@ -37,19 +35,16 @@ class Level extends SBSubCommand {
 			$message = str_replace("{XP_NEEDED}", (string) $xpNeeded, $message);
 			$sender->sendMessage($message);
 		} elseif ($this->checkIsland($sender)) {
-
 			$island = $this->plugin->islandManager->getIsland($sender);
 			if ($island === null) return;
 			$islandLevel = $island->calculateLevel($island->getXP());
 			$xpNeeded = $island->getXPNeeded($island->getXP()) + $island->getXP();
-
 			$message = $this->getMShop()->construct("ISLAND_LEVEL_SELF");
 			$message = str_replace("{LEVEL}", strval($islandLevel), $message);
 			$message = str_replace("{XP}", strval($island->getXP()), $message);
 			$message = str_replace("{XP_NEEDED}", strval($xpNeeded), $message);
 			$sender->sendMessage($message);
 		} else {
-
 			$message = $this->getMShop()->construct("NO_ISLAND");
 			$sender->sendMessage($message);
 		}

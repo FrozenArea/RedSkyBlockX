@@ -14,10 +14,10 @@ use pocketmine\player\Player;
 class ZoneTools extends SBSubCommand {
 
 	private Item $zoneShovel;
+
 	private Item $spawnFeather;
 
 	public function prepare() : void {
-
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.admin;redskyblockx.zone");
 		$this->zoneShovel = ZoneManager::getZoneShovel();
@@ -34,11 +34,8 @@ class ZoneTools extends SBSubCommand {
 		$senderContents = $senderInv->getContents();
 		$zoneShovel = clone $this->zoneShovel;
 		$spawnFeather = clone $this->spawnFeather;
-
 		if ($zoneKeeper != $sender) {
-
 			if ($zoneKeeper == null) {
-
 				ZoneManager::clearZoneTools($sender);
 				$senderInv->addItem($zoneShovel);
 				$senderInv->addItem($spawnFeather);
@@ -48,7 +45,6 @@ class ZoneTools extends SBSubCommand {
 				ZoneManager::setSecondPosition();
 				return;
 			} else {
-
 				ZoneManager::clearZoneTools($zoneKeeper);
 				ZoneManager::setZoneKeeper($sender);
 				ZoneManager::setSpawnPosition();
@@ -59,13 +55,11 @@ class ZoneTools extends SBSubCommand {
 				return;
 			}
 		} elseif (!$senderInv->contains($zoneShovel) || !$senderInv->contains($spawnFeather)) {
-
 			ZoneManager::clearZoneTools($sender);
 			$senderInv->addItem($zoneShovel);
 			$senderInv->addItem($spawnFeather);
 			return;
 		}
-
 		return;
 	}
 }

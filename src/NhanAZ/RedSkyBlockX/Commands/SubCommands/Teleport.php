@@ -29,11 +29,9 @@ class Teleport extends SBSubCommand {
 			$masterWorld = $this->plugin->islandManager->getMasterWorld();
 			if ($masterWorld === null) return;
 			$sender->teleport(new Position($spawnPoint[0], $spawnPoint[1], $spawnPoint[2], $masterWorld));
-
 			$message = $this->getMShop()->construct("GO_HOME");
 			$sender->sendMessage($message);
 		} else {
-
 			$message = $this->getMShop()->construct("NO_ISLAND");
 			$sender->sendMessage($message);
 		}

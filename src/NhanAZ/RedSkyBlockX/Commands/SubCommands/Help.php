@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 namespace NhanAZ\RedSkyBlockX\Commands\SubCommands;
 
 use CortexPE\Commando\args\IntegerArgument;
@@ -23,7 +22,6 @@ use function strtolower;
 class Help extends SBSubCommand {
 
 	public function prepare() : void {
-
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
 		$this->registerArgument(0, new IntegerArgument("page#", true));
@@ -34,22 +32,17 @@ class Help extends SBSubCommand {
 	 * @param array<string> $args
 	 */
 	public function onRun(CommandSender $sender, string $aliasUsed, array $args) : void {
-
 		$islandCommand = $this->parent;
 		$subCommands = $islandCommand->getSubCommands();
 		$subCommandNames = [];
 		foreach ($subCommands as $command) {
-
 			$subCommandNames[] = $command->getName();
 		}
 		$subCommandNames = array_unique($subCommandNames);
 		$pageCount = (int) ceil(count($subCommandNames) / 6);
-
 		if (isset($args["command"])) {
-
 			$commandName = strtolower($args["command"]);
 			if (in_array($commandName, $subCommandNames, true)) {
-
 				$command = $subCommands[$commandName];
 				$commandDescription = $command->getDescription();
 				$commandUsage = $command->getUsageMessage();
@@ -58,13 +51,10 @@ class Help extends SBSubCommand {
 				$commandPermissions = implode(" or ", explode(";", $commandPermissions));
 				$commandAliases = $command->getAliases();
 				if (count($commandAliases) !== 0) {
-
 					$commandAliases = implode(", ", $commandAliases);
 				} else {
-
 					$commandAliases = "N/A";
 				}
-
 				$message = $this->getMShop()->construct("HELP_MENU_SPECIFIC");
 				$message = str_replace("{COMMAND}", $commandName, $message);
 				$message = str_replace("{DESCRIPTION}", $commandDescription, $message);
@@ -73,22 +63,18 @@ class Help extends SBSubCommand {
 				$message = str_replace("{ALIASES}", $commandAliases, $message);
 				$sender->sendMessage($message);
 			} else {
-
 				$message = $this->getMShop()->construct("NO_SUCH_COMMAND");
 				$message = str_replace("{COMMAND}", $commandName, $message);
 				$sender->sendMessage($message);
 			}
 		} else {
-
 			if (isset($args["page#"])) {
-
 				$pageNumber = $args["page#"];
 				if ($pageNumber > $pageCount) $pageNumber = $pageCount;
 				if ($pageNumber <= 0) $pageNumber = 1;
 			} else {
 				$pageNumber = 1;
 			}
-
 			$pageNumber = intval($pageNumber) - 1;
 			$index = $pageNumber * 6;
 			$commandsOnPage = array_slice($subCommandNames, $index, 6);
@@ -98,12 +84,9 @@ class Help extends SBSubCommand {
 			$command4 = "";
 			$command5 = "";
 			$command6 = "";
-
 			for ($x = 0; $x < count($commandsOnPage); $x++) {
-
 				${"command" . $x + 1} = "/is " . $commandsOnPage[$x];
 			}
-
 			$message = $this->getMShop()->construct("HELP_MENU");
 			$message = str_replace("{PAGE_NUMBER}", (string) ($pageNumber + 1), $message);
 			$message = str_replace("{TOTAL_PAGES}", (string) $pageCount, $message);

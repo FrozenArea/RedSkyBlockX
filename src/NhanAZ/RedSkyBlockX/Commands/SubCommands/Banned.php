@@ -16,7 +16,6 @@ use pocketmine\utils\TextFormat;
 class Banned extends SBSubCommand {
 
 	public function prepare() : void {
-
 		$this->addConstraint(new InGameRequiredConstraint($this));
 		$this->setPermission("redskyblockx.island");
 	}
@@ -38,11 +37,9 @@ class Banned extends SBSubCommand {
 				$item->setLore(["Banned From " . $island->getName()]);
 				$menu->getInventory()->addItem($item);
 			}
-
 			$menu->setListener(InvMenu::readonly());
 			$menu->send($sender);
 		} else {
-
 			$message = $this->getMShop()->construct("NO_ISLAND");
 			$sender->sendMessage($message);
 		}
