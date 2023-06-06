@@ -1,3 +1,6 @@
+> **Warning**
+> This plugin is still in development, please do not use in production!
+
 # RedSkyBlockX
 
 [![CI](https://github.com/FrozenArea/RedSkyBlockX/actions/workflows/ci.yml/badge.svg)](https://github.com/FrozenArea/RedSkyBlockX/actions/workflows/ci.yml)
