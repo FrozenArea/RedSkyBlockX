@@ -33,7 +33,8 @@ class ZoneManager {
 
 	private static ?Player $zoneKeeper = null;
 
-	private static string $zoneWorld;
+	/** @var mixed $zoneWorld */
+	private static $zoneWorld;
 
 	private static ?Position $pos1 = null;
 
